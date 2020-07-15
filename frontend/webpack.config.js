@@ -3,39 +3,27 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  mode: "development",
-  entry: ["@babel/polyfill", "./src/app.ts", "./src/styles/main.scss"],
+  entry: ["./src/app.ts", "./styles/style.scss"],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
+  resolve: {
+    extensions: [".ts", ".js", ".json"],
+  },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.js$/,
+        test: /\.ts$/,
         include: [path.resolve(__dirname, "src")],
         use: {
           loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: ["@babel/plugin-proposal-class-properties"],
-          },
         },
-        exclude: /node_modules/,
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [
-          /* devMode ? 'style-loader' : */
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader",
-        ],
+        include: [path.resolve(__dirname, "styles")],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
@@ -44,7 +32,8 @@ module.exports = {
       template: "index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: "css/style.css",
+      filename: "style.css",
     }),
   ],
+  mode: "development",
 };
