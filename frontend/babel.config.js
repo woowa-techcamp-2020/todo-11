@@ -5,15 +5,17 @@ module.exports = function (api) {
     [
       "@babel/preset-env",
       {
-        targets: ">= 1%, not dead",
+        targets: ">= 1%, dead",
         useBuiltIns: "usage",
-        corejs: "3",
+        corejs: { version: 3, proposals: true },
         modules: false,
       },
     ],
+    "@babel/preset-typescript",
   ];
-
+  const plugins = [];
   return {
     presets,
+    plugins,
   };
 };
