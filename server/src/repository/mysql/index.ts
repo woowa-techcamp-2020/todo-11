@@ -1,19 +1,21 @@
-// import mysql from "mysql2";
-import mysql, { QueryError, RowDataPacket, FieldPacket } from "mysql2/promise";
+import {
+    addMember, addGroup, resetTable, getMemberInfo, poolEnd
+} from './mysql.repository';
 
-const pool = mysql.createPool({
-    host : 'localhost',
-    user : 'root',
-    password : 'qkrcjfgns',
-    database : 'todolist',
-    waitForConnections : true,
-    connectionLimit : 10,
-    queueLimit : 0
-});
+import {
+    MemberModel,
+    GroupModel,
+    GroupMemberModel,
+    ColumnModel,
+    CardModel
+} from './mysql.collection';
 
-pool.query<mysql.RowDataPacket[]>('select * from member_tb;').then((response) => {
-    const [rows, fields] = response;
-    const {mno, email, password, salt} = rows[0];
-    console.log(`${mno} ==== ${email} ==== ${password} ==== ${salt}`);
-    console.log(rows[1]);
-});
+export {
+    addMember, addGroup, resetTable, getMemberInfo, poolEnd,
+    MemberModel,
+    GroupModel,
+    GroupMemberModel,
+    ColumnModel,
+    CardModel
+}
+

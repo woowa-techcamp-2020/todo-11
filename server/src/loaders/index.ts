@@ -1,15 +1,31 @@
+import express, {Express} from 'express';
+
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import path from 'path';
+import session from 'express-session';
+import f from 'session-file-store';
 
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const dotenv = require('dotenv');
+function loader(app: Express): void {
+    const FileStore = f(session);
+    const fileStore = new FileStore();
 
-const indexRouter = require('./routes/index');
-const signupRouter = require('./routes/signup');
-const loginRouter = require('./routes/login');
+    if(process.env.NODE_ENV !== 'test') {
+        app.use(logger('dev'));
+    }
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, 'public')));
 
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+    app.use(session({
+        resave: false,
+        saveUninitialized: true,
+        store : fileStore,
+        secret : "asdsadfjkh@#^12412523%@$^@#Q%3lkjfadf",
+        cookie : {maxAge : 5000}
+    }));
+}
+
+export default loader;

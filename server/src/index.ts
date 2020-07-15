@@ -1,11 +1,10 @@
 import express, {Request, Response} from 'express';
+import loader from './loaders';
 import api from './api';
 
 const app = express();
 
-
+loader(app);
 app.use('/', api);
 
-app.listen(3000, () => {
-    console.log("example app listen on port 3000!");
-});
+export default app;
