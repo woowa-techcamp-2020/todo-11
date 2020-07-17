@@ -12,7 +12,7 @@ describe('POST /signup', () => {
     describe("성공시 201을 반환한다.", () => {
         test('맞는 아이디, 맞는 비밀번호', done => {
             request(app).post('/signup')
-                .send({email:"abc123@abc.com", password:"abc"})
+                .send({email:"abc123@abc.com", password:"abcde123123"})
                 .expect(201).end(done);
         });
     });
@@ -36,17 +36,22 @@ describe('POST /signup', () => {
             request(app).post('/signup')
                 .send({email:"abc123@abc.com", password:"abc"})
                 .expect(400).end(done);
-        })
-        // test('둘다 있지만 아이디가 유효성체크에 걸림', done => {
-        //     request(app).post('/signup')
-        //         .send({"email":"abc", "password": "abc"})
-        //         .expect(400).end(done);
-        // });
-        // test('둘다 있지만 비밀번호가 유효성체크에 걸림', done => {
-        //     request(app).post('/signup')
-        //         .send({"email":"abc", "password": "abc"})
-        //         .expect(400).end(done);
-        // });
+        });
+        test('둘다 있지만 아이디가 유효성체크에 걸림', done => {
+            request(app).post('/signup')
+                .send({"email":"a", "password": "abccadf"})
+                .expect(400).end(done);
+        });
+        test('둘다 있지만 비밀번호가 유효성체크에 걸림', done => {
+            request(app).post('/signup')
+                .send({"email":"abc213123123@abc.com", "password": "a"})
+                .expect(400).end(done);
+
+
+            request(app).post('/signup')
+                .send({"email":"abc213123123@abc.com", "password": "@#$%^&*("})
+                .expect(400).end(done);
+        });
     })
 });
 

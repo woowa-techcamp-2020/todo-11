@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent {
+            display: flex;
+        }
+        .column {
+            width:300px;
+            outline : 1px solid black;
+            height:800px;
+        }
+        .card {
+            box-sizing: border-box;
+            width:300px;
+            padding:10px;
+            outline: 1px solid black;
+            color : white;
+            background-color: brown;
+        }
+        .column-header {
+            padding:10px;
+        }
+        .hide {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="column">
+            <div class="column-header">
+                <div class="column-header-title">
+                    <span>할 일</span>
+                    <button class="toggle-btn">+</button>
+                </div>
+                <div class="column-header-card-maker">
+                    <textarea placeholder="Enter a note" name="" id="" cols="30" rows="5"></textarea>
+                    <div>
+                        <button class="add-btn">Add</button>
+                        <button class="cancel-btn">cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">123123</div>
+            <div class="card">234234234</div>
+            <div class="card">345345345</div>
+            <div class="card">39486309j</div>
+        </div>
+        <div class="column">
+            <div class="column-header">
+                <div class="column-header-title">
+                    <span>할 일</span>
+                    <button class="toggle-btn">+</button>
+                </div>
+                <div class="column-header-card-maker">
+                    <textarea placeholder="Enter a note" name="" id="" cols="30" rows="5"></textarea>
+                    <div>
+                        <button class="add-btn">Add</button>
+                        <button class="cancel-btn">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="column-header">
+                <div class="column-header-title">
+                    <span>할 일</span>
+                    <button class="toggle-btn">+</button>
+                </div>
+                <div class="column-header-card-maker">
+                    <textarea placeholder="Enter a note" name="" id="" cols="30" rows="5"></textarea>
+                    <div>
+                        <button class="add-btn">Add</button>
+                        <button class="cancel-btn">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 테스트 용으로 짠 것이기 때문에 깔끔하지 않습니다.
+    // 그냥 파일을 열어도 되고, 아니면 커맨드창에 live-server라고 해도 됩니다.
+
+    const $ = selector => {
+        const result = document.querySelectorAll(selector);
+        return result;
+    };
+
+    const log = console.log;
+
+    const parent = $(".parent");
+    const columns = $(".column");
+    const cards = $(".card");
+
+    let originColumn = columns[0];
+    let currentColumn = columns[1];
+   
+    function mouseDownCallBack(e) {
+
+        e.preventDefault();
+
+        const cardElement = this;
+        const movingCardElement = cardElement.cloneNode(cardElement);
+        cardElement.style.opacity = "0.5";
+
+        const startX = e.pageX;
+        const startY = e.pageY;
+
+        movingCardElement.style.position = "absolute";
+        movingCardElement.style.zIndex = 9999;
+        let rect = cardElement.getBoundingClientRect();
+
+        movingCardElement.style.left = startX - (e.clientX - rect.left) + "px";
+        movingCardElement.style.top = startY - (e.clientY - rect.top) + "px";
+
+        const parentElement = this.parentElement;
+        parentElement.appendChild(movingCardElement);
+        
+        originColumn = parentElement;
+        currentColumn = parentElement;
+
+
+        function moveCallBack(e) {
+            e.preventDefault();
+            const clientX = e.clientX;
+            const clientY = e.clientY; 
+            const currentPositionElements = document.elementsFromPoint(clientX, clientY);
+
+            const changeCards = currentPositionElements.filter(element => [].includes.call(cards, element));
+            const currentColumn = [].find.call(columns, one => currentPositionElements.includes(one));
+
+            log(currentPositionElements);
+            if(changeCards.length == 0) {
+                // 영역 밖을 나가는 것도 있기 때문에 currenColumn을 체크해줘야 한다.
+                if(currentColumn) {
+                    const targetElement = currentColumn;
+                    targetElement.insertAdjacentElement('beforeend', cardElement);
+                }
+            }
+            else if(changeCards.length == 1) {
+                const targetElement = changeCards[0];
+                if(targetElement.previousElementSibling === cardElement) {
+                    targetElement.insertAdjacentElement('afterend', cardElement);
+                } else {
+                    targetElement.insertAdjacentElement('beforebegin', cardElement);
+                }
+            }
+            movingCardElement.style.transform = `translate(${e.pageX - startX}px, ${e.pageY - startY}px)`;
+        };
+ 
+        document.addEventListener('mousemove', moveCallBack);
+
+        document.addEventListener('mouseup', function aa(e) { 
+            e.preventDefault();
+
+            const elements = document.elementsFromPoint(e.clientX, e.clientY);
+            const currentColumn = [].find.call(columns, one => elements.includes(one));
+
+            cardElement.style.opacity = '1';
+            cardElement.style.transform = `translate(0px, 0px)`;
+            parentElement.removeChild(movingCardElement);
+
+            document.removeEventListener('mousemove', moveCallBack);
+            document.removeEventListener('mouseup', aa);
+        }); 
+    }
+
+    cards[0].addEventListener('mousedown', mouseDownCallBack);
+    cards[1].addEventListener('mousedown', mouseDownCallBack);
+    cards[2].addEventListener('mousedown', mouseDownCallBack);
+    cards[3].addEventListener('mousedown', mouseDownCallBack);
+</script>
+<script>
+
+    const buttons = $('button');
+    const toggleBtns = $('.toggle-btn');
+    const cancelBtns = $('.cancel-btn');
+    const cardMakers = $('.column-header-card-maker');
+
+    for(let i=0; i<cardMakers.length; i++) {
+        const cardMaker = cardMakers[i];
+
+        function toggleCardMaker(e) {
+            cardMaker.classList.toggle('hide');
+        }
+        toggleBtns[i].addEventListener('click', toggleCardMaker);
+        cancelBtns[i].addEventListener('click', toggleCardMaker);
+    }
+</script>
+</html>

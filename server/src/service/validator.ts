@@ -7,8 +7,7 @@ function email(email: string) {
     return regExp.test(email);
 }
 function password(password: string) {
-    if(!password) return false;
-
+    if(password.length < 4) return false;
     const regExp = /[a-zA-Z0-9]/g;
     return regExp.test(password);
 }
