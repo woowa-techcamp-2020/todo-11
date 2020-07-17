@@ -54,16 +54,38 @@ const CREATE_CARD_TB: string = `CREATE TABLE card_tb (
     content VARCHAR(255) NOT NULL,
     order_no INT(11) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    author_no INT(11)  NOT NULL,
+    member_no INT(11)  NOT NULL,
     column_no INT(11) NOT NULL,
     PRIMARY KEY(no),
-    FOREIGN KEY(author_no) REFERENCES member_tb(no),
+    FOREIGN KEY(member_no) REFERENCES member_tb(no),
     FOREIGN KEY(column_no) REFERENCES column_tb(no)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );`;
 
-const INSERT_CARD_TB: string = `INSERT INTO card_tb(content, order_no, author_no, column_no) VALUES(?, ?, ?, ?);`;
+const INSERT_CARD_TB: string = `INSERT INTO card_tb(content, order_no, member_no, column_no) VALUES(?, ?, ?, ?);`;
+
+const CREATE_ACTIVITY_TB: string = `CREATE TABLE activity_tb (
+    no INT(11) NOT NULL AUTO_INCREMENT,
+    member_no INT(11) NOT NULL ,
+    action VARCHAR(255) NOT NULL,
+    card_no INT(11) NOT NULL,
+    from_column_no INT(11) NOT NULL,
+    to_column_no INT(11) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY(no),
+    FOREIGN KEY(member_no) REFERENCES member_tb(no),
+    FOREIGN KEY(card_no) REFERENCES card_tb(no),
+    FOREIGN KEY(from_column_no) REFERENCES column_tb(no),
+    FOREIGN KEY(to_column_no) REFERENCES column_tb(no)
+
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);`;
+
+const INSERT_ACTIVITY_TB = `INSERT INTO card_tb(member_no, action, card_no, from_column_no, to_column_no) VALUES(?, ?, ?, ?, ?);`;
+
 
 const RESET_TB: string = `delete from ?`;
 
@@ -84,6 +106,9 @@ export default {
 
     CREATE_CARD_TB,
     INSERT_CARD_TB,
+
+    CREATE_ACTIVITY_TB,
+    INSERT_ACTIVITY_TB,
 
     SELECT_MEMBER,
     RESET_TB
