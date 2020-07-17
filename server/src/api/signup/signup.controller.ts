@@ -6,17 +6,15 @@ import {getMemberInfo} from '../../repository/mysql';
 async function signupController(req: Request, res: Response, next: NextFunction) {
     try {
         const {email, password} = req.body;
-        // console.log(await getMemberInfo(email));
 
-        if(!validate.email(email) || !validate.password(password))
+        if(!validate.email(email) || !validate.password(password)) {
             res.status(400).send();
-
-        // console.log(await getMemberInfo(email));
+        }
         else if(await getMemberInfo(email)) {
             res.status(400).send();
         }
         else {
-            signupMember(email, password);
+            await signupMember(email, password);
             res.status(201).send();
         }
     } catch(err) {
