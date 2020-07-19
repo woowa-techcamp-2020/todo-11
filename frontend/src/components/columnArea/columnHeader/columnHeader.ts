@@ -1,27 +1,26 @@
-import {div, p, span, button} from '../common/defaultElement';
-import AddCardArea from './addCardArea';
-import EventBus from '../../eventBus';
+import {div, p, span, button} from '../../common/defaultElement';
+import AddCardArea from './addCardArea/addCardArea';
+import EventBus from '../../../eventBus';
+import {ColumnModel} from '../../../model';
 
 export default class ColumnHeader {
     eventBus: EventBus;
-    columnCount: number;
-    columnTitle: string;
+    info: ColumnModel;
     addCardArea: AddCardArea;
     element: HTMLElement;
 
-    constructor({eventBus}: {eventBus: EventBus}) {
+    constructor(eventBus: EventBus, columnInfo: ColumnModel) {
         this.eventBus = eventBus;
         // 컬럼 갯수를 받아와야 한다. 
-        this.columnCount = 0;
-        this.columnTitle = "해야할 일";
-        this.addCardArea = new AddCardArea({eventBus});
+        this.info = columnInfo;
+        this.addCardArea = new AddCardArea(eventBus, columnInfo.columnNo);
         this.element = 
             div({className : "column-header",},
                 div(
                     {className : "column-info"},
                     div({}, 
-                        span({}, this.columnCount),
-                        span({}, this.columnTitle),
+                        span({}, this.info.getCardCount()),
+                        span({}, this.info.columnTitle),
                     ),
                     div({},
                         button({'onclick':() => this.toggle()}, '+'),

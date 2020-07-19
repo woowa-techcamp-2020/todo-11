@@ -11,8 +11,7 @@ import EventBus from './eventBus';
 // tmp.appendChild(ttt);
 
 const app = document.getElementById('app');
-const eventBus = new EventBus();
 
-const container = new Container({eventBus});
+const container = new Container();
 
 app?.appendChild(container.render());

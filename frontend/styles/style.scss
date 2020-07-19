@@ -1,7 +1,7 @@
 @import "./reset.scss";
 @import "./container.scss";
 @import "../src/components/header/header.scss";
-@import "../src/components/column/columnArea.scss";
-@import "../src/components/column/columnHeader.scss";
-@import "../src/components/column/columnBody.css";
-@import "../src/components/column/addCardArea.scss";
+@import "../src/components/columnArea/columnArea.scss";
+@import "../src/components/columnArea/columnHeader/columnHeader.scss";
+@import "../src/components/columnArea/columnBody/columnBody.scss";
+@import "../src/components/columnArea/columnHeader/addCardArea/addCardArea.scss";
