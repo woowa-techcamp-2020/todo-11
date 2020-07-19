@@ -1,14 +1,28 @@
 import {div, p} from '../common/defaultElement';
-import Column from '../column/column';
+import ColumnArea from '../columnArea/columnArea';
+import EventBus from '../../eventBus';
+import InfoModel from '../../model/infoModel';
 
+/**
+ * {
+ *  email: string
+ *  memberNo: number
+ *  currentGourpNo: number
+ *  columnInfos: ColumnModel[], columnInfo의 orderNo 순서로
+ * }
+ */
 export default class Main {
-    columns: Column[];
-    constructor() {
-        this.columns = [
-            new Column(),
-            new Column(),
-            new Column()
-        ];
+    columns: ColumnArea[];
+    eventBus: EventBus;
+    infoModel :InfoModel;
+
+    // 사용쟈와 현재 컬럼 정보
+
+    constructor(eventBus: EventBus, infoModel: InfoModel) {
+        this.infoModel = infoModel;
+        this.eventBus = eventBus;
+        this.columns = infoModel.columnInfos.map(columnInfo =>  
+            new ColumnArea(eventBus, columnInfo));
     }
     render() {
         return div(

@@ -1,5 +1,6 @@
 
 import Container from './components/container/container';
+import EventBus from './eventBus';
 
 // console.log("hi");
 // console.log("tmp");
@@ -10,6 +11,7 @@ import Container from './components/container/container';
 // tmp.appendChild(ttt);
 
 const app = document.getElementById('app');
+
 const container = new Container();
 
 app?.appendChild(container.render());
