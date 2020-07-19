@@ -1,7 +1,11 @@
 import {div, p, span, a} from '../common/defaultElement';
+import EventBus from '../../eventBus';
 
 export default class Header {
-
+    eventBus: EventBus;
+    constructor({eventBus}: {eventBus: EventBus}) {
+        this.eventBus = eventBus;
+    }
     render() {
         return div(
             {className: "header"},

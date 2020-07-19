@@ -1,13 +1,17 @@
 import {div, p} from '../common/defaultElement';
 import ColumnArea from '../column/columnArea';
+import EventBus from '../../eventBus';
 
 export default class Main {
     columns: ColumnArea[];
-    constructor() {
+    eventBus: EventBus;
+
+    constructor({eventBus}: {eventBus: EventBus}) {
+        this.eventBus = eventBus;
         this.columns = [
-            new ColumnArea(),
-            new ColumnArea(),
-            new ColumnArea()
+            new ColumnArea({eventBus}),
+            new ColumnArea({eventBus}),
+            new ColumnArea({eventBus})
         ];
     }
     render() {
