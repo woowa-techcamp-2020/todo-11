@@ -1,13 +1,13 @@
 import {div, p} from '../common/defaultElement';
-import Column from '../column/column';
+import ColumnArea from '../column/columnArea';
 
 export default class Main {
-    columns: Column[];
+    columns: ColumnArea[];
     constructor() {
         this.columns = [
-            new Column(),
-            new Column(),
-            new Column()
+            new ColumnArea(),
+            new ColumnArea(),
+            new ColumnArea()
         ];
     }
     render() {

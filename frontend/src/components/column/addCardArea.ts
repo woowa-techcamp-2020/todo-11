@@ -2,6 +2,7 @@ import { div, textarea, button } from '../common/defaultElement';
 
 export default class AddCardArea {
     element: HTMLElement;
+
     constructor() {
         this.element = 
             div({
@@ -9,9 +10,7 @@ export default class AddCardArea {
             },
                 textarea({placeholder : "Enter a not"}, null),
                 button({}, "Add"),
-                button({
-                    onclick : () => this.toggle()
-                }, "Cancel")
+                button({onclick : () => this.toggle()}, "Cancel")
             )
     }
     toggle() {
