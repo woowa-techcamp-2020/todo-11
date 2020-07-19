@@ -1,0 +1,21 @@
+.add-card-area {
+    margin-top : 10px;
+
+    :last-child {
+        margin-left: 4%;
+    }
+
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button {
+        margin-top: 5px;
+        width: 48%;
+        height: 30px;
+    }
+}
+.hide {
+    display: none;
+}
+
