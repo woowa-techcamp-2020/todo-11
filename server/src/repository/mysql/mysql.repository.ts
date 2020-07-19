@@ -24,6 +24,10 @@ async function addMember(member: MemberModel) {
     const {email, password, salt} = member;
     return await pool.execute(query.INSERT_MEMBER_TB, [email, password, salt]);
 }
+async function addMemberDeleted(member: MemberModel) {
+    const {email, password, salt} = member;
+    return await pool.execute(query.INSERT_MEMBER_TB_DELETED, [email, password, salt]);
+}
 
 async function addGroup(group: GroupModel) {
     const {title} = group;
@@ -34,11 +38,22 @@ async function resetTable(tableName: string) {
     const resetQuery = query.RESET_TB.replace('?', tableName);
     return await pool.execute(resetQuery);
 }
-async function getMemberInfo(email: string) {
+async function getMemberInfo(email: string): MemberModel {
     const [rows, fields] = await pool.execute<RowDataPacket[]>(query.SELECT_MEMBER, [email]);
     if(rows.length === 0) return null;
-    const memberInfo = rows[0];
-    return memberInfo;
+    
+    const info = rows[0];
+
+    const memberModel = new MemberModel({
+        no : info.no, 
+        email : info.email, 
+        password : info.password, 
+        salt : info.salt, 
+        created_at : info.created_at, 
+        is_deleted : info.is_deleted
+    });
+    
+    return memberModel;
 }
 
 function poolEnd() {
@@ -47,6 +62,7 @@ function poolEnd() {
 
 export {
     addMember,
+    addMemberDeleted,
     addGroup,
     getMemberInfo,
     resetTable,

@@ -4,16 +4,18 @@ const CREATE_MEMBER_TB: string = `CREATE TABLE member_tb (
     password VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
     PRIMARY KEY(no)
 );`
 
 const INSERT_MEMBER_TB: string = `INSERT INTO member_tb(email, password, salt) VALUES(?, ?, ?);`;
-
+const INSERT_MEMBER_TB_DELETED: string = `INSERT INTO member_tb(email, password, salt, is_deleted) VALUES(?, ?, ?, true);`;
 
 const CREATE_GROUP_TB: string = `CREATE TABLE group_tb (
     no INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
     PRIMARY KEY(no)
 );`;
 
@@ -24,6 +26,7 @@ const CREATE_GROUP_MEMBER_TB: string = `CREATE TABLE group_member_tb (
     group_no INT NOT NULL,
     member_no INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
     PRIMARY KEY(no),
     FOREIGN KEY(group_no) REFERENCES group_tb(no),
     FOREIGN KEY(member_no) REFERENCES member_tb(no)
@@ -39,6 +42,7 @@ const CREATE_COLUMN_TB: string = `CREATE TABLE column_tb (
     order_no INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
     group_no INT NOT NULL,
     PRIMARY KEY(no),
     FOREIGN KEY(group_no) REFERENCES group_tb(no)
@@ -54,6 +58,7 @@ const CREATE_CARD_TB: string = `CREATE TABLE card_tb (
     content VARCHAR(255) NOT NULL,
     order_no INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
     member_no INT  NOT NULL,
     column_no INT NOT NULL,
     PRIMARY KEY(no),
@@ -73,6 +78,7 @@ const CREATE_ACTIVITY_TB: string = `CREATE TABLE activity_tb (
     from_column_no INT NOT NULL,
     to_column_no INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_deleted bool default false,
 
     PRIMARY KEY(no),
     FOREIGN KEY(member_no) REFERENCES member_tb(no),
@@ -94,6 +100,7 @@ const SELECT_MEMBER: string = `select * from member_tb where email = ?`;
 export default {
     CREATE_MEMBER_TB,
     INSERT_MEMBER_TB,
+    INSERT_MEMBER_TB_DELETED,
 
     CREATE_GROUP_TB,
     INSERT_GROUP_TB,

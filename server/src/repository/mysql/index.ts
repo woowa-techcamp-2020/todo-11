@@ -1,5 +1,5 @@
 import {
-    addMember, addGroup, resetTable, getMemberInfo, poolEnd
+    addMember, addGroup, resetTable, getMemberInfo, poolEnd, addMemberDeleted
 } from './mysql.repository';
 
 import {
@@ -11,7 +11,7 @@ import {
 } from './mysql.collection';
 
 export {
-    addMember, addGroup, resetTable, getMemberInfo, poolEnd,
+    addMember, addGroup, resetTable, getMemberInfo, poolEnd, addMemberDeleted,
     MemberModel,
     GroupModel,
     GroupMemberModel,

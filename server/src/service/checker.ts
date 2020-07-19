@@ -6,6 +6,7 @@ async function checkMember(email: string, password: string): Promise<boolean> {
 
     const memberInfo = await getMemberInfo(email);    
     if(!memberInfo) return false;
+    if(memberInfo.isDeleted) return false;
 
     const convertedPassword = await convertPasswordWithSalt(password, memberInfo.salt);
     return  convertedPassword === memberInfo.password;
