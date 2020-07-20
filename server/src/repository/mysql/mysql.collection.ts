@@ -11,7 +11,7 @@ class MemberModel {
     static table: string = 'member_tb';
     static NONE: MemberModel = new MemberModel({email:"", password:"", salt:""});
 
-    no?: number;
+    no: number;
     email: string;
     password: string;
     salt: string;
@@ -33,6 +33,7 @@ interface GroupInterface {
     title: string;
     created_at?: Date;
     is_deleted?: boolean;
+    columns?: ColumnInterface[];
 }
 
 class GroupModel {
@@ -76,6 +77,16 @@ class GroupMemberModel {
     }
 }
 
+interface ColumnInterface {
+    no: number;
+    order_no: number;
+    title: string;
+    created_at?: Date;
+    is_deleted?: boolean;
+    group_no?: number;
+    cards?: CardInterface[];
+}
+
 class ColumnModel {
     static table: string = 'column_tb';
 
@@ -84,25 +95,32 @@ class ColumnModel {
     title: string;
     createdAt: Date;
     isDeleted: boolean;
-    groupNo: number;
+    groupNo?: number;
 
-    constructor(
-        {no, order_no, title, created_at, group_no, is_deleted}: 
-        {no: number, order_no: number, title: string, created_at: Date, is_deleted: boolean, group_no: number}
-        ) {
+    constructor({no, order_no, title, created_at, group_no, is_deleted}: ColumnInterface) {
         this.no = no;
         this.orderNo = order_no;
         this.title = title;
-        this.createdAt = created_at;
-        this.isDeleted = is_deleted;
+        this.createdAt = created_at || new Date;
+        this.isDeleted = is_deleted || false;
         this.groupNo = group_no;
     }
+}
+
+interface CardInterface {
+    no?: number;
+    content: string;
+    order_no: number;
+    created_at: Date;
+    is_deleted?: boolean;
+    author_no: number;
+    column_no: number;
 }
 
 class CardModel {
     static table: string = 'card_tb';
 
-    no: number;
+    no?: number;
     content: string;
     orderNo: number;
     createdAt: Date;
@@ -110,15 +128,12 @@ class CardModel {
     authorNo: number;
     columnNo: number;
 
-    constructor(
-        {no, content, order_no, created_at, is_deleted, author_no, column_no}: 
-        {no: number, content: string, order_no: number, created_at: Date, is_deleted: boolean, author_no: number, column_no: number}
-        ) {
+    constructor({no, content, order_no, created_at, is_deleted, author_no, column_no}: CardInterface) {
         this.no = no;
         this.content = content;
         this.orderNo = order_no;
-        this.createdAt = created_at;
-        this.isDeleted = is_deleted;
+        this.createdAt = created_at || new Date;
+        this.isDeleted = is_deleted || false;
         this.authorNo = author_no;
         this.columnNo = column_no;
     }
@@ -126,8 +141,11 @@ class CardModel {
 
 export {
     MemberModel,
+    GroupInterface,
     GroupModel,
     GroupMemberModel,
+    ColumnInterface,
     ColumnModel,
+    CardInterface,
     CardModel
 };

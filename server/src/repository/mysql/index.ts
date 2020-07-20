@@ -2,6 +2,8 @@ import {
     addMember, 
     addGroup, 
     addGroupMember, 
+    getGroupsBelongMember,
+    getGroupColumnCard,
     resetTable, 
     getMemberInfo, 
     poolEnd, 
@@ -11,9 +13,12 @@ import {
 
 import {
     MemberModel,
+    GroupInterface,
     GroupModel,
     GroupMemberModel,
+    ColumnInterface,
     ColumnModel,
+    CardInterface,
     CardModel
 } from './mysql.collection';
 
@@ -21,6 +26,8 @@ export {
     addMember, 
     addGroup, 
     addGroupMember, 
+    getGroupsBelongMember,
+    getGroupColumnCard,
     resetTable, 
     getMemberInfo, 
     poolEnd, 
@@ -28,9 +35,12 @@ export {
     addDefaultColumns,
 
     MemberModel,
+    GroupInterface,
     GroupModel,
     GroupMemberModel,
+    ColumnInterface,
     ColumnModel,
+    CardInterface,
     CardModel
 }
 

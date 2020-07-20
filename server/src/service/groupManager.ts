@@ -20,17 +20,11 @@ async function joinGroup(groupNo: number, memberNo: number) {
     return groupMemberNo;
 }
 
+async function getGroupInfo() {
+    
+}
+
 export {
     createGroup,
     joinGroup
 }
-
-
-// 그룹 추가
-// 그룹 수정
-// 그룹 삭제
-// 그룹에 멤버 추가
-
-// 컬럼 생성
-// 컬럼 삭제
-// 컬럼 수정

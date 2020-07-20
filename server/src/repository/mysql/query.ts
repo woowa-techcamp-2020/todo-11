@@ -36,6 +36,18 @@ const CREATE_GROUP_MEMBER_TB: string = `CREATE TABLE group_member_tb (
 
 const INSERT_GROUP_MEMBER_TB: string = `INSERT INTO group_member_tb(group_no, member_no) VALUES(?, ?);`;
 
+const SELECT_GROUP_MEMBER_TB_WHERE_MEMBER: string = `
+    SELECT 
+        group_no, group_tb.created_at AS created_at, group_tb.title
+    FROM 
+        group_member_tb
+    JOIN
+        group_tb
+    ON 
+        group_member_tb.group_no = group_tb.no
+    WHERE
+        group_member_tb.member_no = ?;
+`;
 
 const CREATE_COLUMN_TB: string = `CREATE TABLE column_tb (
     no INT NOT NULL AUTO_INCREMENT,
@@ -101,6 +113,38 @@ const RESET_TB: string = `delete from ?`;
 
 const SELECT_MEMBER: string = `select * from member_tb where email = ?`;
 
+
+const SELECT_GROUP_COLUMN_CARD_TB = `
+    select 
+        column_tb.no AS column_no, column_tb.title AS column_title, column_tb.order_no AS column_order, column_tb.created_at AS column_created_at,
+        card_tb.no AS card_no, card_tb.content AS card_content, card_tb.created_at AS card_created_at, card_tb.order_no AS card_order,
+        member_tb.no AS member_no, member_tb.email AS email 
+    FROM 
+        group_member_tb
+    JOIN 
+        member_tb
+    ON 
+        group_member_tb.member_no = member_tb.no 
+    JOIN 
+        column_tb 
+    ON 
+        group_member_tb.group_no = column_tb.group_no
+    JOIN 
+        card_tb
+    ON
+        card_tb.column_no = column_tb.no
+    WHERE 
+        member_tb.no = ?
+        AND group_member_tb.group_no = ?
+        AND member_tb.is_deleted = 0 
+        AND group_member_tb.is_deleted = 0
+        AND column_tb.is_deleted = 0
+        AND card_tb.is_deleted = 0
+    ORDER BY 
+        column_tb.group_no ASC,
+        column_order ASC,
+        card_order DESC;`
+
 export default {
     CREATE_MEMBER_TB,
     INSERT_MEMBER_TB,
@@ -111,10 +155,11 @@ export default {
 
     CREATE_GROUP_MEMBER_TB,
     INSERT_GROUP_MEMBER_TB,
-    INSERT_DEFAULT_COLUMN_TB,
-
+    SELECT_GROUP_MEMBER_TB_WHERE_MEMBER,
+    
     CREATE_COLUMN_TB,
     INSERT_COLUMN_TB,
+    INSERT_DEFAULT_COLUMN_TB,
 
     CREATE_CARD_TB,
     INSERT_CARD_TB,
@@ -123,5 +168,6 @@ export default {
     INSERT_ACTIVITY_TB,
 
     SELECT_MEMBER,
+    SELECT_GROUP_COLUMN_CARD_TB,
     RESET_TB
 }
