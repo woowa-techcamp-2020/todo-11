@@ -1,63 +1,78 @@
-class MemberModel {
-    static table: string = 'member_tb';
-
-    no: number;
+interface MemberInterface{
+    no?: number;
     email: string;
     password: string;
     salt: string;
-    createdAt: Date;
-    isDeleted: boolean;
+    created_at?: Date;
+    is_deleted?: boolean;
+}
 
-    constructor(
-        {no, email, password, salt, created_at, is_deleted} : 
-        {no:number, email:string, password:string, salt:string, created_at:Date, is_deleted:boolean}
-        ) {
-        this.no = no;
+class MemberModel {
+    static table: string = 'member_tb';
+    static NONE: MemberModel = new MemberModel({email:"", password:"", salt:""});
+
+    no?: number;
+    email: string;
+    password: string;
+    salt: string;
+    createdAt?: Date;
+    isDeleted?: boolean;
+
+    constructor({no, email, password, salt, created_at, is_deleted} : MemberInterface) {
+        this.no = no || -1;
         this.email = email;
         this.password = password;
         this.salt = salt,
-        this.createdAt = created_at;
-        this.isDeleted = is_deleted;
+        this.createdAt = created_at || new Date();
+        this.isDeleted = is_deleted || false;
     }
+}
+
+interface GroupInterface {
+    no?: number;
+    title: string;
+    created_at?: Date;
+    is_deleted?: boolean;
 }
 
 class GroupModel {
     static table: string = 'group_tb';
-
-    no: number;
+    no?: number;
     title: string;
-    createdAt: Date;
-    isDeleted: boolean;
-    
-    constructor(
-        {no, title, created_at, is_deleted} : 
-        {no: number, title: string, created_at: Date, is_deleted: boolean}
-        ) {
-        this.no = no;
+    createdAt?: Date;
+    isDeleted?: boolean;
+
+    constructor({no, title, created_at, is_deleted} : GroupInterface) {
+        this.no = no || -1;
         this.title = title;
-        this.createdAt = created_at;
-        this.isDeleted = is_deleted;
+        this.createdAt = created_at || new Date();
+        this.isDeleted = is_deleted || false;
     }
+}
+
+interface GroupMemberInterface {
+    no: number;
+    group_no: number;
+    member_no: number;
+    created_at: Date;
+    is_deleted: boolean;
 }
 
 class GroupMemberModel {
     static table: string = 'group_member_tb';
 
-    no: number;
+    no?: number;
     groupNo: number;
     memberNo: number;
-    createdAt: Date;
-    isDeleted: boolean;
+    createdAt?: Date;
+    isDeleted?: boolean;
 
-    constructor({
-        no, group_no, member_no, created_at, is_deleted} : 
-        {no: number, group_no: number, member_no: number, created_at: Date, is_deleted: boolean}
-        ) {
-        this.no = no;
+    constructor({no, group_no, member_no, created_at, is_deleted} : GroupMemberInterface) {
+        this.no = no || -1;
         this.groupNo = group_no;
         this.memberNo = member_no;
-        this.createdAt = created_at;
-        this.isDeleted = is_deleted;
+        this.createdAt = created_at || new Date();
+        this.isDeleted = is_deleted || false;
     }
 }
 

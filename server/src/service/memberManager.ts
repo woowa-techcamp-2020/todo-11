@@ -1,14 +1,20 @@
 import {addMember, MemberModel} from '../repository/mysql';
-import {makeSalt, convertPasswordWithSalt} from '../service/pwCrypto';
+import {makeSalt, convertPassword, convertPasswordWithSalt} from '../service/pwCrypto';
 
 async function signupMember(email: string, password: string) {
     try {
-        const salt = await makeSalt();
-        const convertedPassword = await convertPasswordWithSalt(password, salt);
-        const obj = {no: 0, email, password: convertedPassword, salt, created_at: new Date(), is_deleted: false};
+        const result = await convertPassword(password);
+        const convertedPassword: string = result.password;
+        const salt = result.salt;
+
+        const obj = {email, password: convertedPassword, salt};
         const newMember = new MemberModel(obj);
         
-        await addMember(newMember);
+        const addedMemberNo = await addMember(newMember).then(([rows, field]) => {
+            const memberNo = rows.insertId;
+            return memberNo;
+        });
+        return addedMemberNo;
     } catch (error) {
         throw error;
     }

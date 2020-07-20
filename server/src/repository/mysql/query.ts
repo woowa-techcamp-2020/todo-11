@@ -50,7 +50,11 @@ const CREATE_COLUMN_TB: string = `CREATE TABLE column_tb (
     ON DELETE CASCADE
 );`;
 
-const INSERT_COLUMN_TB: string = `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?);`;
+
+const INSERT_COLUMN_TB: string = 
+    `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?);`;
+const INSERT_DEFAULT_COLUMN_TB: string = 
+    `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?),(?, ?, ?), (?, ?, ?);`;
 
 // 카드는 해당 컬럼이 삭제되면 다 같이 날아간다.
 const CREATE_CARD_TB: string = `CREATE TABLE card_tb (
@@ -107,6 +111,7 @@ export default {
 
     CREATE_GROUP_MEMBER_TB,
     INSERT_GROUP_MEMBER_TB,
+    INSERT_DEFAULT_COLUMN_TB,
 
     CREATE_COLUMN_TB,
     INSERT_COLUMN_TB,

@@ -6,6 +6,7 @@ import {resetTable, addMember, MemberModel, poolEnd} from '../repository/mysql';
 
 beforeAll(async () => {
     await resetTable('member_tb');
+    await resetTable('group_tb');
 });
 
 describe('POST /signup', () => {

@@ -1,5 +1,12 @@
 import {
-    addMember, addGroup, resetTable, getMemberInfo, poolEnd, addMemberDeleted
+    addMember, 
+    addGroup, 
+    addGroupMember, 
+    resetTable, 
+    getMemberInfo, 
+    poolEnd, 
+    addMemberDeleted,
+    addDefaultColumns
 } from './mysql.repository';
 
 import {
@@ -11,7 +18,15 @@ import {
 } from './mysql.collection';
 
 export {
-    addMember, addGroup, resetTable, getMemberInfo, poolEnd, addMemberDeleted,
+    addMember, 
+    addGroup, 
+    addGroupMember, 
+    resetTable, 
+    getMemberInfo, 
+    poolEnd, 
+    addMemberDeleted,
+    addDefaultColumns,
+
     MemberModel,
     GroupModel,
     GroupMemberModel,

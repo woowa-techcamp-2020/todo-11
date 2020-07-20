@@ -22,7 +22,7 @@ const pool = mysql.createPool({
 
 async function addMember(member: MemberModel) {
     const {email, password, salt} = member;
-    return await pool.execute(query.INSERT_MEMBER_TB, [email, password, salt]);
+    return await pool.execute(query.INSERT_MEMBER_TB, [email, password, salt])
 }
 async function addMemberDeleted(member: MemberModel) {
     const {email, password, salt} = member;
@@ -34,13 +34,21 @@ async function addGroup(group: GroupModel) {
     return await pool.execute(query.INSERT_GROUP_TB, [title]);
 }
 
+async function addGroupMember(groupNo: number, memberNo: number) {
+    return await pool.execute(query.INSERT_GROUP_MEMBER_TB, [groupNo, memberNo]);
+}
+
+async function addDefaultColumns(titles: string[], groupNo: number) {
+    return await pool.execute(query.INSERT_DEFAULT_COLUMN_TB, [1, titles[0], groupNo, 2, titles[1], groupNo, 3, titles[2], groupNo]);
+}
+
 async function resetTable(tableName: string) {
     const resetQuery = query.RESET_TB.replace('?', tableName);
     return await pool.execute(resetQuery);
 }
-async function getMemberInfo(email: string) {
+async function getMemberInfo(email: string): Promise<MemberModel> {
     const [rows, fields] = await pool.execute<RowDataPacket[]>(query.SELECT_MEMBER, [email]);
-    if(rows.length === 0) return null;
+    if(rows.length === 0) return MemberModel.NONE;
     
     const info = rows[0];
 
@@ -64,6 +72,8 @@ export {
     addMember,
     addMemberDeleted,
     addGroup,
+    addGroupMember,
+    addDefaultColumns,
     getMemberInfo,
     resetTable,
     poolEnd
