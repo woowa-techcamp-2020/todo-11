@@ -38,7 +38,7 @@ async function resetTable(tableName: string) {
     const resetQuery = query.RESET_TB.replace('?', tableName);
     return await pool.execute(resetQuery);
 }
-async function getMemberInfo(email: string): MemberModel {
+async function getMemberInfo(email: string) {
     const [rows, fields] = await pool.execute<RowDataPacket[]>(query.SELECT_MEMBER, [email]);
     if(rows.length === 0) return null;
     
