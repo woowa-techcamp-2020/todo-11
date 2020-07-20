@@ -11,6 +11,7 @@ export default class ColumnHeader {
 
     constructor(eventBus: EventBus, columnInfo: ColumnModel) {
         this.eventBus = eventBus;
+        eventBus.add(`addCardToColumn${columnInfo.columnNo}`, () => this.updateCardCount());
         // 컬럼 갯수를 받아와야 한다. 
         this.info = columnInfo;
         this.addCardArea = new AddCardArea(eventBus, columnInfo.columnNo);
@@ -19,7 +20,7 @@ export default class ColumnHeader {
                 div(
                     {className : "column-info"},
                     div({}, 
-                        span({}, this.info.getCardCount()),
+                        span({className: "column-card-counter"}, this.info.getCardCount()),
                         span({}, this.info.columnTitle),
                     ),
                     div({},
@@ -29,6 +30,9 @@ export default class ColumnHeader {
                 ),
                 this.addCardArea.render()
             );
+    }
+    updateCardCount() {
+        this.element.querySelector('.column-card-counter').innerHTML = this.info.getCardCount();
     }
     toggle() {
         this.addCardArea.toggle();

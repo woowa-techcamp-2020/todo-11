@@ -38,10 +38,12 @@ export default class AddCardArea {
     textAreaReset() {
         const textArea = this.element.querySelector('textarea');
         textArea.value = "";
+
     }
     addCard(event: Event) {
         const content = this.element.querySelector('textarea')?.value;
         this.eventBus.emit('addCard', this.columnNo, content);
+        this.element.querySelector('.add-button').disabled = true;
     }
     addButtonActive(event: Event) {
         const button: HTMLButtonElement = this.element.querySelector('.add-button');
