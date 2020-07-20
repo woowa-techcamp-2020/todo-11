@@ -55,7 +55,6 @@ class WtcDialog extends HTMLElement {
 
   connectedCallback() {
     this.setInvisible();
-    console.log("dialog");
   }
 }
 
