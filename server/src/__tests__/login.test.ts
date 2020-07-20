@@ -13,22 +13,22 @@ const TEST_EMAIL_DELETED = "deleted@abc.com";
 const TEST_PASSWORD_DELETED = "deleted";
 
 beforeAll(async () => {
-    await resetTable('member_tb');
-    let result: {password: string, salt: string} = await convertPassword(TEST_PASSWORD);
-    const member = new MemberModel({
-        no: 0, email:TEST_EMAIL, password: result.password, salt:result.salt, created_at : new Date(), is_deleted:false
-    });
+    // await resetTable('member_tb');
+    // let result: {password: string, salt: string} = await convertPassword(TEST_PASSWORD);
+    // const member = new MemberModel({
+    //     no: 0, email:TEST_EMAIL, password: result.password, salt:result.salt, created_at : new Date(), is_deleted:false
+    // });
 
-    result = await convertPassword(TEST_PASSWORD_DELETED);
-    const deletedMember = new MemberModel({
-        no: 0, email:TEST_EMAIL_DELETED, password: result.password, salt:result.salt, created_at : new Date(), is_deleted:true
-    });
+    // result = await convertPassword(TEST_PASSWORD_DELETED);
+    // const deletedMember = new MemberModel({
+    //     no: 0, email:TEST_EMAIL_DELETED, password: result.password, salt:result.salt, created_at : new Date(), is_deleted:true
+    // });
 
-    await addMember(member);
-    await addMemberDeleted(deletedMember);
+    // await addMember(member);
+    // await addMemberDeleted(deletedMember);
 });
 
-describe('POST /login은', () => {
+describe.only('POST /login은', () => {
     describe("성공시 201을 반환한다.", () => {
         test('맞는 아이디, 맞는 비밀번호', done => {
             request(app).post('/login')

@@ -20,6 +20,10 @@ async function joinGroup(groupNo: number, memberNo: number) {
     return groupMemberNo;
 }
 
+async function getGroupInfo() {
+    
+}
+
 export {
     createGroup,
     joinGroup

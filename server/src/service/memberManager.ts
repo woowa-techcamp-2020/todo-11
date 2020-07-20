@@ -1,5 +1,6 @@
 import {addMember, MemberModel} from '../repository/mysql';
 import {makeSalt, convertPassword, convertPasswordWithSalt} from '../service/pwCrypto';
+import { ResultSetHeader } from 'mysql2/promise';
 
 async function signupMember(email: string, password: string) {
     try {
