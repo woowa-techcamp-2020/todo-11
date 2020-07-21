@@ -6,7 +6,7 @@ const CREATE_MEMBER_TB: string = `CREATE TABLE member_tb (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_deleted bool default false,
     PRIMARY KEY(no)
-);`
+);`;
 
 const INSERT_MEMBER_TB: string = `INSERT INTO member_tb(email, password, salt) VALUES(?, ?, ?);`;
 const INSERT_MEMBER_TB_DELETED: string = `INSERT INTO member_tb(email, password, salt, is_deleted) VALUES(?, ?, ?, true);`;
@@ -62,11 +62,8 @@ const CREATE_COLUMN_TB: string = `CREATE TABLE column_tb (
     ON DELETE CASCADE
 );`;
 
-
-const INSERT_COLUMN_TB: string = 
-    `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?);`;
-const INSERT_DEFAULT_COLUMN_TB: string = 
-    `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?),(?, ?, ?), (?, ?, ?);`;
+const INSERT_COLUMN_TB: string = `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?);`;
+const INSERT_DEFAULT_COLUMN_TB: string = `INSERT INTO column_tb(order_no, title, group_no) VALUES(?, ?, ?),(?, ?, ?), (?, ?, ?);`;
 
 // 카드는 해당 컬럼이 삭제되면 다 같이 날아간다.
 const CREATE_CARD_TB: string = `CREATE TABLE card_tb (
@@ -108,11 +105,22 @@ const CREATE_ACTIVITY_TB: string = `CREATE TABLE activity_tb (
 
 const INSERT_ACTIVITY_TB = `INSERT INTO card_tb(member_no, action, card_no, from_column_no, to_column_no) VALUES(?, ?, ?, ?, ?);`;
 
-
 const RESET_TB: string = `delete from ?`;
 
-const SELECT_MEMBER: string = `select * from member_tb where email = ?`;
+const SELECT_ONE_CARD: string = `
+    SELECT 
+        no AS cardNo, 
+        content, 
+        order_no AS orderNo, 
+        created_at AS createdAt, 
+        member_no AS memberNo, 
+        column_no AS columnNo 
+    FROM 
+        card_tb 
+    WHERE 
+        no = ? AND is_deleted = 0;`;
 
+const SELECT_MEMBER: string = `select * from member_tb where email = ?`;
 
 const SELECT_GROUP_COLUMN_CARD_TB = `
     select 
@@ -143,7 +151,25 @@ const SELECT_GROUP_COLUMN_CARD_TB = `
     ORDER BY 
         column_tb.group_no ASC,
         column_order ASC,
-        card_order DESC;`
+        card_order DESC;`;
+
+const SELECT_MAX_CARD_ORDER = `
+    SELECT MAX(order_no) as order_no 
+    FROM card_tb
+    WHERE column_no = ?;
+`;
+
+const UPDATE_CARD = `
+    UPDATE card_tb 
+    SET content=?, order_no=?, column_no=? 
+    WHERE no = ?;
+`;
+
+const DELETE_CARD = `
+    UPDATE card_tb
+    SET is_deleted=1
+    where no = ?
+`;
 
 export default {
     CREATE_MEMBER_TB,
@@ -156,18 +182,22 @@ export default {
     CREATE_GROUP_MEMBER_TB,
     INSERT_GROUP_MEMBER_TB,
     SELECT_GROUP_MEMBER_TB_WHERE_MEMBER,
-    
+
     CREATE_COLUMN_TB,
     INSERT_COLUMN_TB,
     INSERT_DEFAULT_COLUMN_TB,
 
     CREATE_CARD_TB,
     INSERT_CARD_TB,
+    SELECT_MAX_CARD_ORDER,
 
     CREATE_ACTIVITY_TB,
     INSERT_ACTIVITY_TB,
 
     SELECT_MEMBER,
     SELECT_GROUP_COLUMN_CARD_TB,
-    RESET_TB
-}
+    RESET_TB,
+    SELECT_ONE_CARD,
+    UPDATE_CARD,
+    DELETE_CARD,
+};

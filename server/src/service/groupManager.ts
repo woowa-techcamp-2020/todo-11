@@ -1,10 +1,9 @@
-    
-import {addGroup, addGroupMember, GroupModel} from '../repository/mysql';
+import { addGroup, addGroupMember, GroupModel } from "../repository/mysql";
 
 // 그룹 생성
 async function createGroup(title: string) {
-    const newGroup = new GroupModel({title});
-    const groupNo = await addGroup(newGroup).then(([rows, field]) => {
+    const newGroup = new GroupModel({ title });
+    const groupNo = await addGroup(newGroup).then(([rows, fields]) => {
         const groupNo = rows.insertId;
         return groupNo;
     });
@@ -13,18 +12,15 @@ async function createGroup(title: string) {
 }
 
 async function joinGroup(groupNo: number, memberNo: number) {
-    const groupMemberNo = await addGroupMember(groupNo, memberNo).then(([rows, field]) => {
-        const groupMemberNo = rows.insertId;
-        return groupMemberNo;
-    });
+    const groupMemberNo = await addGroupMember(groupNo, memberNo).then(
+        ([rows, fields]) => {
+            const groupMemberNo = rows.insertId;
+            return groupMemberNo;
+        }
+    );
     return groupMemberNo;
 }
 
-async function getGroupInfo() {
-    
-}
+async function getGroupInfo() {}
 
-export {
-    createGroup,
-    joinGroup
-}
+export { createGroup, joinGroup };
