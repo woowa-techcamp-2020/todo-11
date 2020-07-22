@@ -1,20 +1,20 @@
-
 .header {
     display: flex;
     justify-content: space-between;
 
-
     background-color: #000;
     height: 2em;
-    color : #fff;
-    line-height:2.1em;
+    color: #fff;
+    line-height: 2.1em;
     padding: 0px 20px;
-
 
     a {
         text-decoration: none;
         border: none;
         background-color: #000;
         color: #fff;
+    }
+    .invisible {
+        display: none;
     }
 }
