@@ -1,4 +1,4 @@
-interface MemberInterface{
+interface MemberInterface {
     no?: number;
     email: string;
     password: string;
@@ -8,8 +8,12 @@ interface MemberInterface{
 }
 
 class MemberModel {
-    static table: string = 'member_tb';
-    static NONE: MemberModel = new MemberModel({email:"", password:"", salt:""});
+    static table: string = "member_tb";
+    static NONE: MemberModel = new MemberModel({
+        email: "",
+        password: "",
+        salt: "",
+    });
 
     no: number;
     email: string;
@@ -18,12 +22,18 @@ class MemberModel {
     createdAt?: Date;
     isDeleted?: boolean;
 
-    constructor({no, email, password, salt, created_at, is_deleted} : MemberInterface) {
+    constructor({
+        no,
+        email,
+        password,
+        salt,
+        created_at,
+        is_deleted,
+    }: MemberInterface) {
         this.no = no || -1;
         this.email = email;
         this.password = password;
-        this.salt = salt,
-        this.createdAt = created_at || new Date();
+        (this.salt = salt), (this.createdAt = created_at || new Date());
         this.isDeleted = is_deleted || false;
     }
 }
@@ -37,13 +47,13 @@ interface GroupInterface {
 }
 
 class GroupModel {
-    static table: string = 'group_tb';
+    static table: string = "group_tb";
     no?: number;
     title: string;
     createdAt?: Date;
     isDeleted?: boolean;
 
-    constructor({no, title, created_at, is_deleted} : GroupInterface) {
+    constructor({ no, title, created_at, is_deleted }: GroupInterface) {
         this.no = no || -1;
         this.title = title;
         this.createdAt = created_at || new Date();
@@ -60,7 +70,7 @@ interface GroupMemberInterface {
 }
 
 class GroupMemberModel {
-    static table: string = 'group_member_tb';
+    static table: string = "group_member_tb";
 
     no?: number;
     groupNo: number;
@@ -68,7 +78,13 @@ class GroupMemberModel {
     createdAt?: Date;
     isDeleted?: boolean;
 
-    constructor({no, group_no, member_no, created_at, is_deleted} : GroupMemberInterface) {
+    constructor({
+        no,
+        group_no,
+        member_no,
+        created_at,
+        is_deleted,
+    }: GroupMemberInterface) {
         this.no = no || -1;
         this.groupNo = group_no;
         this.memberNo = member_no;
@@ -88,7 +104,7 @@ interface ColumnInterface {
 }
 
 class ColumnModel {
-    static table: string = 'column_tb';
+    static table: string = "column_tb";
 
     no: number;
     orderNo: number;
@@ -97,11 +113,18 @@ class ColumnModel {
     isDeleted: boolean;
     groupNo?: number;
 
-    constructor({no, order_no, title, created_at, group_no, is_deleted}: ColumnInterface) {
+    constructor({
+        no,
+        order_no,
+        title,
+        created_at,
+        group_no,
+        is_deleted,
+    }: ColumnInterface) {
         this.no = no;
         this.orderNo = order_no;
         this.title = title;
-        this.createdAt = created_at || new Date;
+        this.createdAt = created_at || new Date();
         this.isDeleted = is_deleted || false;
         this.groupNo = group_no;
     }
@@ -118,7 +141,7 @@ interface CardInterface {
 }
 
 class CardModel {
-    static table: string = 'card_tb';
+    static table: string = "card_tb";
 
     no?: number;
     content: string;
@@ -128,11 +151,19 @@ class CardModel {
     authorNo: number;
     columnNo: number;
 
-    constructor({no, content, order_no, created_at, is_deleted, author_no, column_no}: CardInterface) {
+    constructor({
+        no,
+        content,
+        order_no,
+        created_at,
+        is_deleted,
+        author_no,
+        column_no,
+    }: CardInterface) {
         this.no = no;
         this.content = content;
         this.orderNo = order_no;
-        this.createdAt = created_at || new Date;
+        this.createdAt = created_at || new Date();
         this.isDeleted = is_deleted || false;
         this.authorNo = author_no;
         this.columnNo = column_no;
@@ -147,5 +178,5 @@ export {
     ColumnInterface,
     ColumnModel,
     CardInterface,
-    CardModel
+    CardModel,
 };

@@ -1,15 +1,20 @@
 import {
-    addMember, 
-    addGroup, 
-    addGroupMember, 
+    addCard,
+    addMember,
+    addGroup,
+    addGroupMember,
     getGroupsBelongMember,
     getGroupColumnCard,
-    resetTable, 
-    getMemberInfo, 
-    poolEnd, 
+    resetTable,
+    getMemberInfo,
+    poolEnd,
     addMemberDeleted,
-    addDefaultColumns
-} from './mysql.repository';
+    addDefaultColumns,
+    getMaxCardOrder,
+    getCard,
+    getOneData,
+    updateOne,
+} from "./mysql.repository";
 
 import {
     MemberModel,
@@ -19,21 +24,24 @@ import {
     ColumnInterface,
     ColumnModel,
     CardInterface,
-    CardModel
-} from './mysql.collection';
+    CardModel,
+} from "./mysql.collection";
+
+import query from "./query";
 
 export {
-    addMember, 
-    addGroup, 
-    addGroupMember, 
+    query,
+    addCard,
+    addMember,
+    addGroup,
+    addGroupMember,
     getGroupsBelongMember,
     getGroupColumnCard,
-    resetTable, 
-    getMemberInfo, 
-    poolEnd, 
+    resetTable,
+    getMemberInfo,
+    poolEnd,
     addMemberDeleted,
     addDefaultColumns,
-
     MemberModel,
     GroupInterface,
     GroupModel,
@@ -41,6 +49,9 @@ export {
     ColumnInterface,
     ColumnModel,
     CardInterface,
-    CardModel
-}
-
+    CardModel,
+    getMaxCardOrder,
+    getCard,
+    getOneData,
+    updateOne,
+};
