@@ -1,11 +1,20 @@
 .column-header {
-    padding: 10px;
-    background-color: #eee;
-
+    margin-bottom: 20px;
 
     .column-info {
         display: flex;
         justify-content: space-between;
-        
+    }
+
+    .column-card-counter {
+        background-color: #000;
+        color: #fff;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 50px;
+        margin-right: 5px;
     }
 }

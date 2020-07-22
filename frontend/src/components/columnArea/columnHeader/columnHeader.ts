@@ -1,7 +1,7 @@
-import {div, p, span, button} from '../../common/defaultElement';
-import AddCardArea from './addCardArea/addCardArea';
-import EventBus from '../../../eventBus';
-import {ColumnModel} from '../../../model';
+import { div, p, span, button } from "../../common/defaultElement";
+import AddCardArea from "./addCardArea/addCardArea";
+import EventBus from "../../../eventBus";
+import { ColumnModel } from "../../../model";
 
 export default class ColumnHeader {
     eventBus: EventBus;
@@ -11,28 +11,30 @@ export default class ColumnHeader {
 
     constructor(eventBus: EventBus, columnInfo: ColumnModel) {
         this.eventBus = eventBus;
-        eventBus.add(`addCardToColumn${columnInfo.columnNo}`, () => this.updateCardCount());
-        // 컬럼 갯수를 받아와야 한다. 
+        eventBus.add(`addCardToColumn${columnInfo.columnNo}`, () =>
+            this.updateCardCount()
+        );
+        // 컬럼 갯수를 받아와야 한다.
         this.info = columnInfo;
         this.addCardArea = new AddCardArea(eventBus, columnInfo.columnNo);
-        this.element = 
-            div({className : "column-header",},
+        this.element = div(
+            { className: "column-header" },
+            div(
+                { className: "column-info" },
                 div(
-                    {className : "column-info"},
-                    div({}, 
-                        span({className: "column-card-counter"}, this.info.getCardCount()),
-                        span({}, this.info.columnTitle),
-                    ),
-                    div({},
-                        button({'onclick':() => this.toggle()}, '+'),
-                        button({}, 'X')
-                    )
+                    {},
+                    span({ className: "column-card-counter" }, this.info.getCardCount()),
+                    span({}, this.info.columnTitle)
                 ),
-                this.addCardArea.render()
-            );
+                div({}, button({ onclick: () => this.toggle() }, "+"), button({}, "X"))
+            ),
+            this.addCardArea.render()
+        );
     }
     updateCardCount() {
-        this.element.querySelector('.column-card-counter').innerHTML = this.info.getCardCount();
+        this.element.querySelector(
+            ".column-card-counter"
+        ).innerHTML = this.info.getCardCount();
     }
     toggle() {
         this.addCardArea.toggle();
@@ -41,4 +43,3 @@ export default class ColumnHeader {
         return this.element;
     }
 }
-
