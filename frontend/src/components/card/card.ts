@@ -1,25 +1,42 @@
-import {div, p, span, button} from '../common/defaultElement';
-import {CardModel} from '../../model';
+import { div, p, span, button } from "../common/defaultElement";
+import EventBus from "../../eventBus";
+import { CardModel } from "../../model";
 
 // 아직까지는 이벤트 버스가 필요없다고 생각했다.
 export default class Card {
+    eventBus: EventBus;
     cardModel: CardModel;
+    element?: any;
 
-    constructor(cardModel: CardModel) {
+    constructor(eventBus: EventBus, cardModel: CardModel) {
+        this.eventBus = eventBus;
         this.cardModel = cardModel;
+    }
+    setContent(content: string) {
+        const contentElement: HTMLSpanElement | null = this.element?.querySelector(
+            ".card-content"
+        );
+        contentElement!.innerText = content;
     }
     render() {
         const info = this.cardModel;
 
-        return div({className : "card"},
-            div({clasName: "upside"},
+        this.element = div(
+            {
+                className: "card",
+                ondblclick: () => {
+                    console.log(this);
+                    this.eventBus.emit("doubleClickCard", this);
+                },
+            },
+            div(
+                { clasName: "upside" },
                 span({}, `${info.cardNo}`),
-                span({}, `${info.content}`),
+                span({ className: "card-content" }, `${info.content}`),
                 button({}, "X")
             ),
-            div({className: "downside"},
-                span({}, `by ${info.author}`) 
-            )
+            div({ className: "downside" }, span({}, `by ${info.author}`))
         );
+        return this.element;
     }
 }
