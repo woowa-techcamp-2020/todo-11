@@ -44,13 +44,11 @@ export default class Card {
                     const targetElement: HTMLElement = currentColumn;
                     this.belowAreaFlag = [currentColumn, "beforeend", null];
                     targetElement.insertAdjacentElement("beforeend", cardElement);
-                    console.log(0);
                 }
             }
         } else if (changeCards.length == 1) {
             const targetElement = changeCards[0];
             if (targetElement === cardElement) {
-                console.log(11);
             } else if (targetElement.previousElementSibling === cardElement) {
                 if (
                     this.belowAreaFlag[0] !== currentColumn ||
@@ -59,7 +57,6 @@ export default class Card {
                 ) {
                     this.belowAreaFlag = [currentColumn, "afterend", targetElement];
                     targetElement.insertAdjacentElement("afterend", cardElement);
-                    console.log(22);
                 }
             } else {
                 if (
@@ -78,7 +75,7 @@ export default class Card {
     }
     setContent(content: string) {
         const contentElement: HTMLSpanElement | null = this.element?.querySelector(
-            ".card-content"
+            ".content"
         );
         contentElement!.innerText = content;
     }
