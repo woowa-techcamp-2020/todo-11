@@ -31,7 +31,7 @@ class EditDialog extends HTMLElement {
                     </span>
                     <span id="title" class="title"> </span>
                   </div>
-                  <span id="close" class="close">X</span>
+                  <span id="close" class="close">x</span>
                 </div>
                 <div class="body">
                   <label id="label" class="label" for="content"></label>
@@ -57,7 +57,7 @@ class EditDialog extends HTMLElement {
             }
 
             .header {
-            padding: 20px;
+            padding: 22px;
             background-color: #f5f8fa;
             display: flex;
             flex-direction: row;
@@ -71,32 +71,51 @@ class EditDialog extends HTMLElement {
 
             .body {
             display: flex;
-            padding: 20px;
+            padding: 22px;
             flex-direction: column;
             }
 
             .label {
             font-size: 20px;
+            font-weight: 600;
             }
 
             .content {
+                border: 2px solid #5175bd;
+                border-radius: 5px;
+                padding: 12px;
             font-size: 18px;
             margin: 10px 0 20px;
             overflow: hidden;
+            }
+            .content:focus{
+                outline: none;
+                box-shadow: 0 0 2px 3px #91A7D0;
+                
             }
 
             .btn {
             width: fit-content;
             font-size: 20px;
             padding: 10px;
+            font-weight: 550;
             color: white;
             background-color: #2bb24a;
-            border: 1px solid #2bb24a;
+            border: none;
             border-radius: 5px;
             }
+            .btn:focus{
+                outline: none;
+            }
+            .btn:hover{
+                background-color: #4dc569;
+            }
+            .btn:active{
+                background-color: #079c2a;
+            }
+
             .btn:disabled {
             background-color: gray;
-            border-color: gray;
             }
 
             .note {
@@ -106,9 +125,15 @@ class EditDialog extends HTMLElement {
             resize: none;
             }
             .close {
+                color: rgb(104, 100, 100);
+                font-size: 22px;
+                font-weight: 900;
             }
             .close:hover {
-            color: red;
+            color: #5175bd;
+            }
+            .close:active{
+                color: #234996;
             }
         `;
         shadow.appendChild(style);

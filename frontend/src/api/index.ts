@@ -33,7 +33,15 @@ export default {
             body: JSON.stringify(card),
         });
     },
-
+    async editColumnTitle(column: ColumnModel) {
+        return await fetch(`${baseUrl}/todolist/column`, {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(column),
+        });
+    },
     async addCard(columnNo: number, memberNo: number,  content: string) {
         return await fetch(`${baseUrl}/todolist/card`, {
             method: "post",
@@ -48,18 +56,22 @@ export default {
             }),
         });
     },
-    async deleteCard(cardNo: number) {
+    async deleteCard(card: CardModel) {
         return await fetch(`${baseUrl}/todolist/card`, {
             method: "delete",
-            mode: 'cors',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                cardNo,
-            }),
+            body: JSON.stringify(card),
         });
-    }
-    
-    // async editColumnTitle(column: ColumnModel) {},
+    },
+    async deleteColumn(column: ColumnModel) {
+        return await fetch(`${baseUrl}/todolist/column`, {
+            method: "delete",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(column),
+        });
+    },
 };

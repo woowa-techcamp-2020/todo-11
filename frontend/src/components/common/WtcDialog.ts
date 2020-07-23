@@ -1,23 +1,23 @@
 class WtcDialog extends HTMLElement {
-  constructor() {
-    super();
-    const shadow: ShadowRoot = this.attachShadow({ mode: "closed" });
-    shadow.innerHTML = `
+    constructor() {
+        super();
+        const shadow: ShadowRoot = this.attachShadow({ mode: "closed" });
+        shadow.innerHTML = `
         <div class="dialog-wrapper">
             <slot class="dialog-container"></slot>
         </div>
     `;
 
-    this.addEventListener("click", (e) => {
-      const top = e.composedPath()[0];
-      if (top === this || top.className === "dialog-wrapper") {
-        this.setInvisible();
-      }
-    });
+        this.addEventListener("click", (e) => {
+            const top = e.composedPath()[0];
+            if (top === this) {
+                this.setInvisible();
+            }
+        });
 
-    const style: HTMLStyleElement = document.createElement("style");
-    style.lang = "scss";
-    style.textContent = `
+        const style: HTMLStyleElement = document.createElement("style");
+        style.lang = "scss";
+        style.textContent = `
         .dialog-wrapper {
             display: flex;
             align-items: center;
@@ -34,28 +34,30 @@ class WtcDialog extends HTMLElement {
         .dialog-container {
             display: block;
         }
-        :host(.visible){
-            display:'';
+        :host(.clear) .dialog-wrapper{
+            background-color: rgba(0,0,0,0);
         }
         :host(.invisible){
             display:none;
         }
     `;
-    shadow.appendChild(style);
-  }
+        shadow.appendChild(style);
+    }
 
-  setVisible() {
-    this.classList.remove("invisible");
-    this.classList.add("visible");
-  }
-  setInvisible() {
-    this.classList.remove("visible");
-    this.classList.add("invisible");
-  }
+    setClear() {
+        this.classList.add("clear");
+    }
 
-  connectedCallback() {
-    this.setInvisible();
-  }
+    setVisible() {
+        this.classList.remove("invisible");
+    }
+    setInvisible() {
+        this.classList.add("invisible");
+    }
+
+    connectedCallback() {
+        this.setInvisible();
+    }
 }
 
 export default WtcDialog;
