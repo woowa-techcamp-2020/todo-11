@@ -32,5 +32,32 @@ export default {
             body: JSON.stringify(card),
         });
     },
-    async editColumnTitle(column: ColumnModel) {},
+    async editColumnTitle(column: ColumnModel) {
+        return await fetch(`${baseUrl}/todolist/column`, {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(column),
+        });
+    },
+
+    async deleteCard(card: CardModel) {
+        return await fetch(`${baseUrl}/todolist/card`, {
+            method: "delete",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(card),
+        });
+    },
+    async deleteColumn(column: ColumnModel) {
+        return await fetch(`${baseUrl}/todolist/column`, {
+            method: "delete",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(column),
+        });
+    },
 };
