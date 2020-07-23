@@ -25,7 +25,6 @@ export default class Card {
             {
                 className: "card",
                 ondblclick: () => {
-                    console.log(this);
                     this.eventBus.emit("doubleClickCard", this);
                 },
             },
@@ -33,7 +32,14 @@ export default class Card {
                 { clasName: "upside" },
                 span({}, `${info.cardNo}`),
                 span({ className: "card-content" }, `${info.content}`),
-                button({}, "X")
+                button(
+                    {
+                        onclick: () => {
+                            this.eventBus.emit("deleteCard", this);
+                        },
+                    },
+                    "X"
+                )
             ),
             div({ className: "downside" }, span({}, `by ${info.author}`))
         );

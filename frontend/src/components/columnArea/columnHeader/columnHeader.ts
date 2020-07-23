@@ -40,7 +40,13 @@ export default class ColumnHeader {
                 div(
                     {},
                     button({ onclick: () => this.toggle() }, "+"),
-                    button({}, "X")
+                    button(
+                        {
+                            onclick: () =>
+                                this.eventBus.emit("deleteColumn", this),
+                        },
+                        "X"
+                    )
                 )
             ),
             this.addCardArea.render()
