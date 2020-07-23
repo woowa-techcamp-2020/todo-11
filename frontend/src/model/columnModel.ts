@@ -18,4 +18,8 @@ export default class ColumnModel {
     getCardCount(): number {
         return this.cardInfos.length;
     }
+    removeCardInfo(cardinfo: CardModel) {
+        const idx = this.cardInfos.indexOf(cardinfo);
+        this.cardInfos.splice(idx, 1);
+    }
 }
