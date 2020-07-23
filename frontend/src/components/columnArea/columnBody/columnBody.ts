@@ -2,6 +2,7 @@ import { div, p, span } from "../../common/defaultElement";
 import Card from "../../card/card";
 import EventBus from "../../../eventBus";
 import { ColumnModel, CardModel } from "../../../model";
+import api from "../../../api";
 
 const className = "column-body";
 
@@ -24,6 +25,13 @@ export default class ColumnBody {
         eventBus.add(`addCardToColumn${columnInfo.columnNo}`, (data: any) =>
             this.addCard(data)
         );
+        eventBus.add(`deleteCardToColumn${columnInfo.columnNo}`, async (card: Card) => {
+            const ressult = await api.deleteCard(card.cardModel.cardNo);
+            if(ressult.status === 200) {
+                this.columnInfo.removeCardInfo(card.cardModel);
+                this.element.removeChild(card.element);
+            }
+        });
     }
     render() {
         return this.element;

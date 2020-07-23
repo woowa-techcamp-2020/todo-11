@@ -29,19 +29,24 @@ export default class Container {
         this.className = "container";
         this.eventBus.add(
             "addCard",
-            (columnNo: number, cardContent: string) => {
-                // 서버에 전송하고 그 반환값을 받아온다.
+            async (columnNo: number, cardContent: string) => {
+
+                const addedCard = await api.addCard(16, 78, cardContent).then(res => res.json());
+
+                console.log(addedCard);
+
                 const addedCardModel = new CardModel({
-                    cardNo: 10,
-                    content: cardContent,
-                    orderNo: 10,
-                    createdAt: new Date(),
+                    cardNo: addedCard.cardNo,
+                    content: addedCard.content,
+                    orderNo: addedCard.orderNo,
+                    createdAt: new Date(addedCard.createdAt),
                     author: this.infos.email,
                     columnNo,
                 });
                 const currentColumnInfo = this.infos.columnInfos.find(
                     (columnInfo) => columnInfo.columnNo === columnNo
                 );
+
                 currentColumnInfo?.addCardInfo(addedCardModel);
                 this.eventBus.emit(
                     `addCardToColumn${columnNo}`,

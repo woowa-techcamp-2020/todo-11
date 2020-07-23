@@ -1,4 +1,5 @@
 import { CardModel, ColumnModel } from "../model";
+import AddCardArea from "../components/columnArea/columnHeader/addCardArea/addCardArea";
 
 const baseUrl = "http://localhost:3000";
 
@@ -32,5 +33,33 @@ export default {
             body: JSON.stringify(card),
         });
     },
-    async editColumnTitle(column: ColumnModel) {},
+
+    async addCard(columnNo: number, memberNo: number,  content: string) {
+        return await fetch(`${baseUrl}/todolist/card`, {
+            method: "post",
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                memberNo,
+                columnNo,
+                content,
+            }),
+        });
+    },
+    async deleteCard(cardNo: number) {
+        return await fetch(`${baseUrl}/todolist/card`, {
+            method: "delete",
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                cardNo,
+            }),
+        });
+    }
+    
+    // async editColumnTitle(column: ColumnModel) {},
 };

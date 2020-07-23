@@ -48,7 +48,6 @@ export default class Card {
                 }
             }
         } else if (changeCards.length == 1) {
-            // debugger;
             const targetElement = changeCards[0];
             if (targetElement === cardElement) {
                 console.log(11);
@@ -88,44 +87,8 @@ export default class Card {
         return (this.element = div(
             {
                 className: "card",
-                onmousedown: (e: any) => {
-                    const parentElement = this.element?.parentElement;
-                    const startX = (this.startX = e.pageX);
-                    const startY = (this.startY = e.pageY);
-                    const cardElement = this.element;
-
-                    e.preventDefault();
-                    const movingCardElement: any = (this.movingCardElement = this.element!.cloneNode(
-                        this.element
-                    ));
-                    // debugger; // 카드 대신 wrap에 담을것
-                    movingCardElement.firstChild.classList.add("moving-card");
-                    movingCardElement!.style.position = "absolute";
-                    movingCardElement!.onmouseup = (e) => {
-                        cardElement!.style.opacity = "1";
-                        document.removeEventListener("mousemove", this.moveCard);
-                        movingCardElement!.style.opacity = "0";
-                        setTimeout(() => {
-                            document.body.removeChild(movingCardElement);
-                        }, 200);
-                    };
-
-                    let rect = this.element?.getBoundingClientRect();
-                    movingCardElement.style.width = e.currentTarget.offsetWidth + "px";
-
-                    movingCardElement!.style.left =
-                        startX - (e.clientX - rect!.left) + "px";
-
-                    movingCardElement!.style.top =
-                        startY - (e.clientY - rect!.top) + "px";
-
-                    document.body.appendChild(movingCardElement);
-                    cardElement!.style.opacity = "0.5";
-                    document.addEventListener("mousemove", this.moveCard);
-                },
-                ondblclick: () => {
-                    this.eventBus.emit("doubleClickCard", this);
-                },
+                
+                
             },
             div(
                 {
@@ -135,14 +98,58 @@ export default class Card {
                 div(
                     {
                         className: "upside",
+                        ondblclick: e => {
+                            if(e.target.className === "deleteButton") return;
+                            this.eventBus.emit("doubleClickCard", this);
+                        },
                     },
                     span({ className: "icon" }, `${info.cardNo}`),
                     span({ className: "content" }, `${info.content}`),
-                    button({}, "X")
+                    button({ 
+                        className: "deleteButton" , 
+                        onclick : (e: Event) => {
+                            this.eventBus.emit(`deleteCardToColumn${this.cardModel.columnNo}`, this);
+                        },
+                    }, "X")
                 ),
                 div(
                     {
                         className: "downside",
+                        onmousedown: (e: any) => {
+                            const parentElement = this.element?.parentElement;
+                            const startX = (this.startX = e.pageX);
+                            const startY = (this.startY = e.pageY);
+                            const cardElement = this.element;
+        
+                            e.preventDefault();
+                            const movingCardElement: any = (this.movingCardElement = this.element!.cloneNode(
+                                this.element
+                            ));
+                            movingCardElement.firstChild.classList.add("moving-card");
+                            movingCardElement!.style.position = "absolute";
+                            movingCardElement!.onmouseup = (e) => {
+                                cardElement!.style.opacity = "1";
+                                document.removeEventListener("mousemove", this.moveCard);
+                                movingCardElement!.style.opacity = "0";
+                                setTimeout(() => {
+                                    document.body.removeChild(movingCardElement);
+                                }, 200);
+                            };
+        
+                            let rect = this.element?.getBoundingClientRect();
+                            movingCardElement.style.width = e.currentTarget.offsetWidth + "px";
+        
+                            movingCardElement!.style.left =
+                                startX - (e.clientX - rect!.left) + "px";
+        
+                            movingCardElement!.style.top =
+                                startY - (e.clientY - rect!.top) + "px";
+        
+                            document.body.appendChild(movingCardElement);
+                            cardElement!.style.opacity = "0.5";
+                            document.addEventListener("mousemove", this.moveCard);
+                        },
+                        
                     },
                     span({}, `by ${info.author}`)
                 )
