@@ -12,9 +12,9 @@ export default class InfoModel {
     constructor(info: any) {
         this.email = info.email;
         this.memberNo = info.memberNo;
-        this.currentGroupNo = info.currentGroupNo;
-        this.groupInfos = info.groupInfos;
-        this.columnInfos = info.columnInfos;
+        this.currentGroupNo = info.currentGroupNo;  // 무조건 하나는 있다.
+        this.groupInfos = info.groupInfos;  // 무조건 하나는 있다.
+        this.columnInfos = info.columnInfos || [];
     }
 
 }
