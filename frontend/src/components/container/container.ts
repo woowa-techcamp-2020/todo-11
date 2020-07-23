@@ -7,6 +7,8 @@ import api from "../../api";
 import { InfoModel, GroupModel, ColumnModel, CardModel } from "../../model";
 import Card from "../card/card";
 import ColumnHeader from "../columnArea/columnHeader/columnHeader";
+import utils from "../../utils";
+import DeletePopup from "../DeletePopup";
 
 export default class Container {
     header: Header;
@@ -15,6 +17,7 @@ export default class Container {
     eventBus: EventBus;
     infos: InfoModel;
     editDialog: EditDialog;
+    deletePopup: DeletePopup;
 
     constructor() {
         this.infos = this.getInfo();
@@ -26,6 +29,7 @@ export default class Container {
         );
         this.main = new Main(this.eventBus, this.infos);
         this.editDialog = new EditDialog();
+        this.deletePopup = new DeletePopup();
         this.className = "container";
         this.eventBus.add(
             "addCard",
@@ -56,28 +60,51 @@ export default class Container {
         );
         this.eventBus.add("doubleClickCard", (card: Card) => {
             const info = card.cardModel;
-
-            this.editDialog.content = info.content;
-            this.editDialog.type = "note";
             this.editDialog.setVisible();
-            this.editDialog.handleSubmit = () => {
-                const edited: CardModel = Object.assign(info);
-                edited.content = this.editDialog.content;
-                api.editCardContent(edited).then((res) => {
-                    if (res.status === 200) card.cardModel = edited;
-                    card.setContent(edited.content);
-                });
-            };
+            utils.setParams(this.editDialog, {
+                type: "note",
+                content: info.content,
+                handleSubmit: () => {
+                    const edited: CardModel = Object.assign(info);
+                    edited.content = this.editDialog.content;
+                    api.editCardContent(edited).then((res) => {
+                        if (res.status === 200) card.cardModel = edited;
+                        card.setContent(edited.content);
+                    });
+                },
+            });
         });
         this.eventBus.add("doubleClickColumn", (column: ColumnHeader) => {
             const info = column.info;
-            this.editDialog.title = info.columnTitle;
-            this.editDialog.content = info.columnTitle;
-            this.editDialog.type = "column";
             this.editDialog.setVisible();
-            this.editDialog.handleSubmit = () => {
-                console.log("ㄱㄷ");
-            };
+            utils.setParams(this.editDialog, {
+                type: "column",
+                title: info.columnTitle,
+                content: info.columnTitle,
+                handleSubmit: () => {},
+            });
+        });
+        this.eventBus.add("deleteCard", (card: Card) => {
+            this.deletePopup.setVisible();
+            utils.setParams(this.deletePopup, {
+                type: "card",
+                handleConfirm: () => {
+                    api.deleteCard(card.cardModel).then((res) =>
+                        console.log(res)
+                    );
+                },
+            });
+        });
+        this.eventBus.add("deleteColumn", (column: ColumnHeader) => {
+            this.deletePopup.setVisible();
+            utils.setParams(this.deletePopup, {
+                type: "column",
+                handleConfirm: () => {
+                    api.deleteColumn(column.info).then((res) =>
+                        console.log(res)
+                    );
+                },
+            });
         });
     }
     getInfo() {
@@ -127,6 +154,7 @@ export default class Container {
             { className: this.className },
             this.header.render(),
             this.main.render(),
+            this.deletePopup,
             this.editDialog
         );
     }

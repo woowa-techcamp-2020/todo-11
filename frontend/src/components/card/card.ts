@@ -87,8 +87,6 @@ export default class Card {
         return (this.element = div(
             {
                 className: "card",
-                
-                
             },
             div(
                 {
@@ -108,6 +106,7 @@ export default class Card {
                     button({ 
                         className: "deleteButton" , 
                         onclick : (e: Event) => {
+                            this.eventBus.emit("deleteCard", this);
                             this.eventBus.emit(`deleteCardToColumn${this.cardModel.columnNo}`, this);
                         },
                     }, "X")

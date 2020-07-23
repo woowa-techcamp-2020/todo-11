@@ -1,5 +1,10 @@
 import WtcDialog from "./common/WtcDialog";
 
+const hangul = {
+    login: "로그인",
+    signup: "회원가입",
+};
+
 class LoginDialog extends HTMLElement {
     #dialog: WtcDialog;
     #handleSignup: Function;
@@ -21,17 +26,11 @@ class LoginDialog extends HTMLElement {
                             회원가입
                         </div>
                     </div>
-                    <div class="body">
-                        <div class="input-container">
-                            <label for="email">아디</label>
-                            <input type="text" name="" id="email">
-                        </div>
-                        <div class="input-container">
-                            <label for="pw">비번</label>
-                            <input type="text" name="" id="pw">
-                        </div>
-                        <button id="submit" class="btn">클릭</button>
-                    </div>
+                    <form id='form' class="body">
+                        <input type="text" id="email" placeholder="Email">
+                        <input type="text" id="pw" placeholder="Password">
+                        <button id="submit" class="btn">로그인</button>
+                    </form>
                 </div>
             </wtc-dialog>
         `;
@@ -39,9 +38,9 @@ class LoginDialog extends HTMLElement {
         style.lang = "scss";
         style.innerText = `        
             .container{
-                width: 600px;
+                width: 500px;
                 box-sizing: border-box;
-                border: 1px solid black;
+                border-radius: 6px;
                 background-color: white;
             }
             .header{
@@ -50,24 +49,27 @@ class LoginDialog extends HTMLElement {
                 justify-content: space-around;
             }
             .tab{
+                color:black;
                 text-align: center;
                 width: 100%;
                 font-size: 20px;
                 padding: 20px;
-                background-color: gray;
             }
             .activation{
-                background-color: rgb(219, 255, 166);
+                color: white;
+                background-color: black;
+            }
+            #login{
+                border-top-left-radius: 6px;
+            }
+            #signup{
+                border-top-right-radius: 6px;
             }
             .body{
                 padding: 20px;
                 display: flex;
                 flex-direction: column;
-            }
-            .input-container{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+                align-content: center;
             }
             .btn {
                 width: 30%;
@@ -83,13 +85,10 @@ class LoginDialog extends HTMLElement {
                 background-color: gray;
                 border-color: gray;
                 }
-            label{
-                width: 15%;
-                font-size: 20px;
-            }
             input{
                 width: 100%;
                 font-size: 18px;
+                margin-bottom: 5px;
             }
         `;
         shadow.appendChild(style);
@@ -116,6 +115,9 @@ class LoginDialog extends HTMLElement {
     }
     setInvisible() {
         this.#dialog.setInvisible();
+    }
+    get form() {
+        return new FormData(this.shadowRoot?.getElementById("form"));
     }
     get email() {
         return this.shadowRoot.getElementById("email").value;
@@ -152,7 +154,8 @@ class LoginDialog extends HTMLElement {
                 this.shadowRoot!!.getElementById(newValue)?.classList.add(
                     "activation"
                 );
-                break;
+                this.shadowRoot!!.getElementById("submit")!.textContent =
+                    hangul[newValue];
         }
     }
 }
