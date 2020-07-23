@@ -15,7 +15,9 @@ export default class ColumnBody {
         this.columnInfo = columnInfo;
         this.element = div(
             { className },
-            ...columnInfo.cardInfos.map((cardInfo) => new Card(cardInfo).render())
+            ...columnInfo.cardInfos.map((cardInfo) =>
+                new Card(this.eventBus, cardInfo).render()
+            )
         );
 
         // event 등록
@@ -27,6 +29,9 @@ export default class ColumnBody {
         return this.element;
     }
     addCard(cardModel: CardModel) {
-        this.element.insertAdjacentElement("afterbegin", new Card(cardModel).render());
+        this.element.insertAdjacentElement(
+            "afterbegin",
+            new Card(this.eventBus, cardModel).render()
+        );
     }
 }

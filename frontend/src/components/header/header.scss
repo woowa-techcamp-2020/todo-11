@@ -1,9 +1,7 @@
 .header {
     display: flex;
     justify-content: space-between;
-
     border-radius: 10px 10px 0px 0px;
-
     background-color: #000;
     height: 2em;
     color: #fff;
@@ -15,5 +13,8 @@
         border: none;
         background-color: #000;
         color: #fff;
+    }
+    .invisible {
+        display: none;
     }
 }

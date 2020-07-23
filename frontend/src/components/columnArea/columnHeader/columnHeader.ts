@@ -23,10 +23,25 @@ export default class ColumnHeader {
                 { className: "column-info" },
                 div(
                     {},
-                    span({ className: "column-card-counter" }, this.info.getCardCount()),
-                    span({}, this.info.columnTitle)
+                    span(
+                        { className: "column-card-counter" },
+                        this.info.getCardCount()
+                    ),
+                    span(
+                        {
+                            className: "column-title",
+                            ondblclick: () => {
+                                this.eventBus.emit("doubleClickColumn", this);
+                            },
+                        },
+                        this.info.columnTitle
+                    )
                 ),
-                div({}, button({ onclick: () => this.toggle() }, "+"), button({}, "X"))
+                div(
+                    {},
+                    button({ onclick: () => this.toggle() }, "+"),
+                    button({}, "X")
+                )
             ),
             this.addCardArea.render()
         );
@@ -35,6 +50,11 @@ export default class ColumnHeader {
         this.element.querySelector(
             ".column-card-counter"
         ).innerHTML = this.info.getCardCount();
+    }
+    setTitle(title: string) {
+        this.element.getElementsByClassName(
+            "column-title"
+        )[0].textContent = title;
     }
     toggle() {
         this.addCardArea.toggle();

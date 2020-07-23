@@ -1,16 +1,18 @@
 import { div, p, span, button } from "../common/defaultElement";
+import EventBus from "../../eventBus";
 import { CardModel } from "../../model";
 
-// 아직까지는 이벤트 버스가 필요없다고 생각했다.
 export default class Card {
+    eventBus: EventBus;
     cardModel: CardModel;
-    element?: HTMLElement;
+    element?: any;
     movingCardElement?: HTMLElement;
     startX: number;
     startY: number;
     belowAreaFlag: [HTMLElement, string, HTMLElement | null];
 
-    constructor(cardModel: CardModel) {
+    constructor(eventBus: EventBus, cardModel: CardModel) {
+        this.eventBus = eventBus;
         this.cardModel = cardModel;
         this.moveCard = this.moveCard.bind(this);
         this.startX = this.startY = 0;
@@ -75,9 +77,14 @@ export default class Card {
         this.movingCardElement!.style.transform = `
             translate(${clientX - this.startX}px, ${clientY - this.startY}px)`;
     }
+    setContent(content: string) {
+        const contentElement: HTMLSpanElement | null = this.element?.querySelector(
+            ".card-content"
+        );
+        contentElement!.innerText = content;
+    }
     render() {
         const info = this.cardModel;
-
         return (this.element = div(
             {
                 className: "card",
@@ -115,6 +122,9 @@ export default class Card {
                     document.body.appendChild(movingCardElement);
                     cardElement!.style.opacity = "0.5";
                     document.addEventListener("mousemove", this.moveCard);
+                },
+                ondblclick: () => {
+                    this.eventBus.emit("doubleClickCard", this);
                 },
             },
             div(
