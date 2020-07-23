@@ -4,7 +4,7 @@
 
     display: flex;
     flex-flow: column;
-    cursor: move;
+    
 
     .upside {
         background-color: #fff;
@@ -12,6 +12,8 @@
         padding: 10px;
         display: flex;
         min-height: 30px;
+        cursor: pointer;
+
         span {
             display: inline-block;
         }
@@ -35,6 +37,7 @@
         background-color: #fff;
         // margin-bottom: 20px;
         min-height: 20px;
+        cursor: move;
     }
     .moving-card {
         // box-shadow: 0px 10px 0 0 rgba(0, 0, 0, 0.1);
