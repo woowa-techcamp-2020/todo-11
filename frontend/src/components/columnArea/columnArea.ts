@@ -1,15 +1,14 @@
-import {div, p} from '../common/defaultElement';
-import ColumnHeader from './columnHeader/columnHeader';
-import ColumnBody from './columnBody/columnBody';
-import EventBus from '../../eventBus';
-import {ColumnModel} from '../../model';
-
+import { div, p } from "../common/defaultElement";
+import ColumnHeader from "./columnHeader/columnHeader";
+import ColumnBody from "./columnBody/columnBody";
+import EventBus from "../../eventBus";
+import { ColumnModel } from "../../model";
 
 // 현재 그룹
 // 현재 컬럼
 export default class ColumnArea {
     eventBus: EventBus;
-    columnInfo: ColumnModel;
+    columnInfo?: ColumnModel;
     columnHeader: ColumnHeader;
     columnBody: ColumnBody;
 
@@ -22,9 +21,9 @@ export default class ColumnArea {
     render() {
         const eventBus = this.eventBus;
         return div(
-            {className: "column-area"},
+            { className: "column-area" },
             this.columnHeader.render(),
             this.columnBody.render()
-        )
+        );
     }
 }

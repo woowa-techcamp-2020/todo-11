@@ -8,7 +8,7 @@ const className = "column-body";
 export default class ColumnBody {
     eventBus: EventBus;
     element: HTMLElement;
-    columnInfo: ColumnModel;
+    columnInfo?: ColumnModel;
 
     constructor(eventBus: EventBus, columnInfo: ColumnModel) {
         this.eventBus = eventBus;

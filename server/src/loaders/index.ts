@@ -5,7 +5,7 @@ import logger from 'morgan';
 import path from 'path';
 import session from 'express-session';
 import f from 'session-file-store';
-
+import cors from 'cors';
 
 function loader(app: Express): void {
     const FileStore = f(session);
@@ -14,6 +14,7 @@ function loader(app: Express): void {
     if(process.env.NODE_ENV !== 'test') {
         app.use(logger('dev'));
     }
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());

@@ -5,7 +5,7 @@ import { ColumnModel } from "../../../model";
 
 export default class ColumnHeader {
     eventBus: EventBus;
-    info: ColumnModel;
+    info?: ColumnModel;
     addCardArea: AddCardArea;
     element: HTMLElement;
 

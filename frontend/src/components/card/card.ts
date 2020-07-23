@@ -1,14 +1,16 @@
 import { div, p, span, button } from "../common/defaultElement";
 import { CardModel } from "../../model";
 
-// 아직까지는 이벤트 버스가 필요없다고 생각했다.
 export default class Card {
-    cardModel: CardModel;
+    eventBus: EventBus;
+    cardModel?: CardModel;
+    element?: any;
     element?: HTMLElement;
     movingCardElement?: HTMLElement;
     startX: number;
     startY: number;
     belowAreaFlag: [HTMLElement, string, HTMLElement | null];
+    cardHeight?: string;
 
     constructor(cardModel: CardModel) {
         this.cardModel = cardModel;
@@ -42,7 +44,6 @@ export default class Card {
                     const targetElement: HTMLElement = currentColumn;
                     this.belowAreaFlag = [currentColumn, "beforeend", null];
                     targetElement.insertAdjacentElement("beforeend", cardElement);
-                    console.log(0);
                 }
             }
         } else if (changeCards.length == 1) {
@@ -58,7 +59,6 @@ export default class Card {
                 ) {
                     this.belowAreaFlag = [currentColumn, "afterend", targetElement];
                     targetElement.insertAdjacentElement("afterend", cardElement);
-                    console.log(22);
                 }
             } else {
                 if (
@@ -81,11 +81,18 @@ export default class Card {
         return (this.element = div(
             {
                 className: "card",
+                ondblclick: () => {
+                    console.log(this);
+                    this.eventBus.emit("doubleClickCard", this);
+                },
+
                 onmousedown: (e: any) => {
                     const parentElement = this.element?.parentElement;
                     const startX = (this.startX = e.pageX);
                     const startY = (this.startY = e.pageY);
                     const cardElement = this.element;
+
+                    this.cardHeight = cardElement?.clientHeight;
 
                     e.preventDefault();
                     const movingCardElement: any = (this.movingCardElement = this.element!.cloneNode(

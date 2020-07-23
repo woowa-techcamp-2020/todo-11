@@ -1,6 +1,9 @@
+import Container from "./components/container/container";
+import EventBus from "./eventBus";
 
-import Container from './components/container/container';
-import EventBus from './eventBus';
+import WtcDialog from "./components/common/WtcDialog";
+import LoginDialog from "./components/LoginDialog";
+import EditDialog from "./components/EditDialog";
 
 // console.log("hi");
 // console.log("tmp");
@@ -10,8 +13,7 @@ import EventBus from './eventBus';
 // const tmp = document.getElementsByTagName("body")[0];
 // tmp.appendChild(ttt);
 
-const app = document.getElementById('app');
+const app = document.getElementById("app");
 
 const container = new Container();
-
-app?.appendChild(container.render());
+setTimeout(() => app?.appendChild(container.render()), 0);
