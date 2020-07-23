@@ -86,7 +86,32 @@ export default class Container {
                 new GroupModel(4, "누구님의 주말 리스트"),
             ],
             columnInfos: [
-                new ColumnModel(2, "해야할 일", 1, []),
+                new ColumnModel(2, "해야할 일", 1, [
+                    new CardModel({
+                        cardNo: 10,
+                        content: "test1",
+                        orderNo: 10,
+                        createdAt: new Date(),
+                        author: "abc@abc.com",
+                        columnNo: 2,
+                    }),
+                    new CardModel({
+                        cardNo: 11,
+                        content: "test1",
+                        orderNo: 11,
+                        createdAt: new Date(),
+                        author: "abc@abc.com",
+                        columnNo: 2,
+                    }),
+                    new CardModel({
+                        cardNo: 12,
+                        content: "test1",
+                        orderNo: 12,
+                        createdAt: new Date(),
+                        author: "abc@abc.com",
+                        columnNo: 2,
+                    }),
+                ]),
                 new ColumnModel(3, "하는 중", 2, []),
                 new ColumnModel(4, "다했어", 3, []),
             ],
@@ -94,9 +119,7 @@ export default class Container {
     }
     render() {
         return div(
-            {
-                className: this.className,
-            },
+            { className: this.className },
             this.header.render(),
             this.main.render(),
             this.editDialog
