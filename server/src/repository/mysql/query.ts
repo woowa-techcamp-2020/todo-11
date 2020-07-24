@@ -122,6 +122,31 @@ const SELECT_ONE_CARD: string = `
 
 const SELECT_MEMBER: string = `select * from member_tb where email = ?`;
 
+const SELECT_GROUP_COLUMN_TB = `
+    select 
+            column_tb.no AS column_no, column_tb.title AS column_title, column_tb.order_no AS column_order, column_tb.created_at AS column_created_at,
+            member_tb.no AS member_no, member_tb.email AS email 
+        FROM 
+            group_member_tb
+        JOIN 
+            member_tb
+        ON 
+            group_member_tb.member_no = member_tb.no 
+        JOIN 
+            column_tb 
+        ON 
+            group_member_tb.group_no = column_tb.group_no
+        WHERE 
+            member_tb.no = ?
+            AND group_member_tb.group_no = ?
+            AND member_tb.is_deleted = 0 
+            AND group_member_tb.is_deleted = 0
+            AND column_tb.is_deleted = 0
+        ORDER BY 
+            column_tb.group_no ASC,
+            column_order ASC;
+`;
+
 const SELECT_GROUP_COLUMN_CARD_TB = `
     select 
         column_tb.no AS column_no, column_tb.title AS column_title, column_tb.order_no AS column_order, column_tb.created_at AS column_created_at,
@@ -200,4 +225,16 @@ export default {
     SELECT_ONE_CARD,
     UPDATE_CARD,
     DELETE_CARD,
+    SELECT_GROUP_COLUMN_TB,
 };
+
+
+
+
+
+
+
+
+
+
+

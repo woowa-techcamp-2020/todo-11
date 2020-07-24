@@ -101,8 +101,8 @@ async function getGroupsBelongMember(memberNo: number) {
 
 async function getGroupColumnCard(memberNo: number, groupNo: number) {
     return await pool
-        .execute<RowDataPacket[]>(query.SELECT_GROUP_COLUMN_CARD_TB, [memberNo, groupNo])
-        .then(([rows, fields]) => {
+        .execute<RowDataPacket[]>(query.SELECT_GROUP_COLUMN_TB, [memberNo, groupNo])
+        .then(async ([rows, fields]) => {
             const result: any[] = [];
             let preColumnNo: number;
             let curColumn: {
@@ -125,11 +125,31 @@ async function getGroupColumnCard(memberNo: number, groupNo: number) {
                     };
                     result.push(curColumn);
                 }
-                curColumn.cards.push({
-                    cardNo: row.card_no,
-                    cardContent: row.card_content,
-                    cardCreatedAt: row.card_created_at,
-                    cardOrderNO: row.card_order,
+            });
+
+            preColumnNo = -1;
+            await pool.execute<RowDataPacket[]>(query.SELECT_GROUP_COLUMN_CARD_TB, [memberNo, groupNo])
+            .then(([rows, fields]) => {
+                let curColumnCards;
+                rows.forEach((row) => {
+                    if (preColumnNo !== row.column_no) {
+                        curColumnCards = result.find(column => column.columnNo === row.column_no);
+
+                        preColumnNo = row.column_no;
+                        curColumn = {
+                            columnNo: row.column_no,
+                            columnTitle: row.column_title,
+                            columnOrderNo: row.column_order,
+                            columnCreatedAt: row.column_created_at,
+                            cards: [],
+                        };
+                        curColumnCards.cards.push({
+                            cardNo: row.card_no,
+                            cardContent: row.card_content,
+                            cardCreatedAt: row.card_created_at,
+                            cardOrderNO: row.card_order,
+                        });
+                    }
                 });
             });
             return result;
@@ -205,3 +225,4 @@ export {
     getOneData,
     updateOne,
 };
+
