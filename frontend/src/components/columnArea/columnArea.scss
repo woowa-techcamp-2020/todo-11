@@ -1,0 +1,11 @@
+.column-area {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #eef1f3;
+    // box-shadow: 0px 0px 0px 10px #eee;
+}

@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    background-color: #242a2e;
+    color: #fff;
+    line-height: 2.1em;
+    padding: 3px 20px;
+    span {
+        font-size: 30px;
+        line-height: 150%;
+    }
+    a {
+        text-decoration: none;
+        border: none;
+        background-color: #242a2e;
+        color: #fff;
+    }
+    .invisible {
+        display: none;
+    }
+    .icon {
+        margin: 5px;
+    }
+
+    .icon-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+}
