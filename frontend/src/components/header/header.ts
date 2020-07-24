@@ -3,6 +3,8 @@ import api from "../../api";
 import LoginDialog from "../LoginDialog";
 import EventBus from "../../eventBus";
 import utils from "../../utils";
+import TodoMenu from "../menu/Menu";
+import activityModel from "../../model/activityModel";
 // activity관련 값을 가져온다.
 // memberNo, currentColumnNo 가 필요하다.
 export default class Header {
@@ -10,6 +12,7 @@ export default class Header {
     loginDialog: LoginDialog;
     userIcon: HTMLElement;
     loginText: HTMLElement;
+    menu: TodoMenu;
     constructor(eventBus: EventBus, memberNo: number, currentColumnNo: number) {
         this.eventBus = eventBus;
         const loginDialog = new LoginDialog();
@@ -49,6 +52,8 @@ export default class Header {
         this.loginDialog = loginDialog;
         this.loginText = loginText;
         this.userIcon = userIcon;
+        this.menu = new TodoMenu();
+        this.menu.hide();
     }
     render() {
         return div(
@@ -57,7 +62,8 @@ export default class Header {
             this.loginDialog,
             this.userIcon,
             this.loginText,
-            a({ href: "#" }, "menu")
+            a({ href: "#", onclick: () => this.menu.show() }, "menu"),
+            this.menu
         );
     }
 }
