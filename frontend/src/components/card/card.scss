@@ -4,11 +4,10 @@
 
     display: flex;
     flex-flow: column;
-    
 
     .upside {
         background-color: #fff;
-        border-radius: 20px 20px 0px 0px;
+        border-radius: 5px 5px 0px 0px;
         padding: 10px;
         display: flex;
         min-height: 30px;
@@ -31,7 +30,7 @@
         }
     }
     .downside {
-        border-radius: 0px 0px 20px 20px;
+        border-radius: 0px 0px 5px 5px;
         padding: 10px;
         padding-left: 30px;
         background-color: #fff;
