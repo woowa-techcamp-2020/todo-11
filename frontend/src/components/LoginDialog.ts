@@ -96,7 +96,6 @@ class LoginDialog extends HTMLElement {
         this.#dialog = shadow.getElementById("dialog")!!;
         const submitBtn = shadow.getElementById("submit");
         submitBtn?.addEventListener("click", () => {
-            console.log("hi");
             if (this.type === "login") this.handleLogin();
             else if (this.type === "signup") this.handleSignup();
         });
