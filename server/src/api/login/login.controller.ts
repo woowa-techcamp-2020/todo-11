@@ -31,7 +31,7 @@ async function loginController(
         const columnCard = await getGroupColumnCard(memberInfo.no, curGroup.no);
         const test: string = JSON.stringify(columnCard);
 
-        req.session!.columnsNo = columnCard.map((one) => one.columnNo);
+        req.session!.columnsNo = columnCard.map((one: any) => one.columnNo);
 
         req.session!.groupsNo = groups.map((group) => group.no);
 
