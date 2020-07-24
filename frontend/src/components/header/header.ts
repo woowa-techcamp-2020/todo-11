@@ -25,18 +25,18 @@ export default class Header {
         });
 
         loginDialog.handleLogin = async () => {
-            const result = await api.login(this.loginDialog.email, this.loginDialog.password)
-            .then((res) => {
-                if(res.status === 201) {
-                    this.loginDialog.setInvisible();
-                    return res.json();
-                } else {
-                    return null;
-                }
-            });
-            
-            if(!!result) 
-                this.eventBus.emit('getEntireData', result);
+            const result = await api
+                .login(this.loginDialog.email, this.loginDialog.password)
+                .then((res) => {
+                    if (res.status === 201) {
+                        this.loginDialog.setInvisible();
+                        return res.json();
+                    } else {
+                        return null;
+                    }
+                });
+
+            if (!!result) this.eventBus.emit("getEntireData", result);
         };
         loginDialog.handleSignup = () => {
             api.signup(this.loginDialog.email, this.loginDialog.password).then(
@@ -60,6 +60,7 @@ export default class Header {
         this.loginText = loginText;
         this.userIcon = userIcon;
         this.menu = new TodoMenu();
+        // this.menu.activityList=; 여기에 activityModel 배열 넣자.
         this.menu.hide();
     }
     render() {
