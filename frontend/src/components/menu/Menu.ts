@@ -55,7 +55,6 @@ class TodoMenu extends HTMLElement {
             }
         `;
         shadow.appendChild(style);
-        console.log(shadow.getElementById("hide"));
         shadow
             .getElementById("hide")!
             .addEventListener("click", () => this.hide());
