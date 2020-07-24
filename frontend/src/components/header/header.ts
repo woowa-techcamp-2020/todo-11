@@ -11,13 +11,24 @@ export default class Header {
     eventBus: EventBus;
     loginDialog: LoginDialog;
     userIcon: HTMLElement;
+    menuIcon: HTMLElement;
     loginText: HTMLElement;
     menu: TodoMenu;
+    activityList: ActivityModel[];
     constructor(eventBus: EventBus, memberNo: number, currentColumnNo: number) {
+        this.activityList = [];
+        eventBus.add("addActivity", (activity: activityModel) => {
+            this.activityList.push(activity);
+            this.menu.activityList = this.activityList;
+        });
         this.eventBus = eventBus;
         const loginDialog = new LoginDialog();
+        this.menu = new TodoMenu();
         const userIcon = utils.createElement("img", {
             src: "user.svg",
+        });
+        const menuIcon = utils.createElement("img", {
+            src: "menu.svg",
         });
         const loginText = utils.createElement("p", {
             textContent: "로그인 했다 치고",
@@ -36,7 +47,9 @@ export default class Header {
                     }
                 });
 
-            if (!!result) this.eventBus.emit("getEntireData", result);
+            if (!!result) {
+                this.eventBus.emit("getEntireData", result);
+            }
         };
         loginDialog.handleSignup = () => {
             api.signup(this.loginDialog.email, this.loginDialog.password).then(
@@ -58,20 +71,27 @@ export default class Header {
 
         this.loginDialog = loginDialog;
         this.loginText = loginText;
+        userIcon.className = "icon";
+        menuIcon.className = "icon";
+
+        menuIcon.addEventListener("click", () => this.menu.show());
         this.userIcon = userIcon;
-        this.menu = new TodoMenu();
-        // this.menu.activityList=; 여기에 activityModel 배열 넣자.
+        this.menuIcon = menuIcon;
+
         this.menu.hide();
     }
     render() {
         return div(
             { className: "header" },
-            span({}, "헤더입니다."),
-            this.loginDialog,
-            this.userIcon,
-            this.loginText,
-            a({ href: "#", onclick: () => this.menu.show() }, "menu"),
-            this.menu
+            span({}, "todo"),
+            div(
+                { className: "icon-container" },
+                this.userIcon,
+                this.loginText,
+                this.menuIcon,
+                this.loginDialog,
+                this.menu
+            )
         );
     }
 }

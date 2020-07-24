@@ -1,6 +1,7 @@
 import { div, textarea, button } from "../../../common/defaultElement";
 import EventBus from "../../../../eventBus";
 import { CardModel } from "../../../../model";
+import ActivityModel from "../../../../model/activityModel";
 
 export default class AddCardArea {
     element: HTMLElement;
@@ -46,10 +47,23 @@ export default class AddCardArea {
     addCard(event: Event) {
         const content = this.element.querySelector("textarea")?.value;
         this.eventBus.emit("addCard", this.columnNo, content);
+        this.eventBus.emit(
+            "addActivity",
+            new ActivityModel({
+                email: "tmp",
+                action: "add",
+                content: content || "",
+                fromColumnTitle: null,
+                toColumnTitle: "tmp",
+                createdAt: null,
+            })
+        );
         this.element.querySelector(".add-button")!.disabled = true;
     }
     addButtonActive(event: Event) {
-        const button: HTMLButtonElement = this.element.querySelector(".add-button");
+        const button: HTMLButtonElement = this.element.querySelector(
+            ".add-button"
+        );
 
         if (event.target.value.trim().length < 1) {
             button.disabled = true;

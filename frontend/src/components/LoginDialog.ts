@@ -49,15 +49,16 @@ class LoginDialog extends HTMLElement {
                 justify-content: space-around;
             }
             .tab{
-                color:black;
+                color:white;
+                background-color: black;
                 text-align: center;
                 width: 100%;
                 font-size: 20px;
                 padding: 20px;
             }
             .activation{
-                color: white;
-                background-color: black;
+                color: black;
+                background-color: white;
             }
             #login{
                 border-top-left-radius: 6px;
