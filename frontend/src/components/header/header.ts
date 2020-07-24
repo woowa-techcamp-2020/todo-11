@@ -24,12 +24,19 @@ export default class Header {
             className: "invisible",
         });
 
-        loginDialog.handleLogin = () => {
-            api.login(this.loginDialog.email, this.loginDialog.password).then(
-                (res) => {
-                    console.log(res);
+        loginDialog.handleLogin = async () => {
+            const result = await api.login(this.loginDialog.email, this.loginDialog.password)
+            .then((res) => {
+                if(res.status === 201) {
+                    this.loginDialog.setInvisible();
+                    return res.json();
+                } else {
+                    return null;
                 }
-            );
+            });
+            
+            if(!!result) 
+                this.eventBus.emit('getEntireData', result);
         };
         loginDialog.handleSignup = () => {
             api.signup(this.loginDialog.email, this.loginDialog.password).then(
